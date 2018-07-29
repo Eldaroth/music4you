@@ -1,8 +1,9 @@
 package com.music4you.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Person extends Leaser {
+public class Person extends Leaser implements Serializable {
     // Declare attributes
     private Date dateOfBirth;
     private String firstName;
@@ -15,7 +16,7 @@ public class Person extends Leaser {
         this.firstName = inFirstName;
     }
 
-    /*
+    /**
      * Setting & getting the date of birth of the client
      */
     public void setDateOfBirth(Date dateOfBirth) {
@@ -27,7 +28,7 @@ public class Person extends Leaser {
     }
 
 
-    /*
+    /**
      * Setting & getting the first name of the client
      */
     public void setFirstName(String firstName) {

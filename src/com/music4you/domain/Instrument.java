@@ -1,6 +1,15 @@
 package com.music4you.domain;
 
-public class Instrument {
+import java.io.Serializable;
+
+/**
+ * Class describes an instrument
+ *
+ * @author Eldaroth
+ * @version 1.0
+ */
+
+public class Instrument implements Serializable {
     // Declare attributes
     private static int nextInventoryId = 1;
 
@@ -8,6 +17,7 @@ public class Instrument {
     private String type;
     private String manufacturer;
     private int inventoryId;
+    private boolean leased;
 
     // Constructor
     public Instrument (String inModel, String inType, String inManufacturer) {
@@ -16,9 +26,10 @@ public class Instrument {
         this.manufacturer = inManufacturer;
         this.inventoryId = Instrument.nextInventoryId;
         nextInventoryId++;
+        this.leased = false;
     }
 
-    /*
+    /**
      * setting & getting the model name of the instrument
      */
     public void setModel(String model) {
@@ -29,7 +40,7 @@ public class Instrument {
         return model;
     }
 
-    /*
+    /**
      * setting & getting the type of the instrument
      */
     public void setType(String type) {
@@ -40,7 +51,7 @@ public class Instrument {
         return type;
     }
 
-    /*
+    /**
      * setting & getting the manufacturer of the instrument
      */
     public void setManufacturer(String manufacturer) {
@@ -51,7 +62,7 @@ public class Instrument {
         return manufacturer;
     }
 
-    /*
+    /**
      * setting & getting the unique inventory id of the instrument
      */
     public void setInventoryId(int inventoryId) {
@@ -60,5 +71,27 @@ public class Instrument {
 
     public int getInventoryId() {
         return inventoryId;
+    }
+
+    /**
+     * checking whether instrument is leased or not
+     */
+    public void setLeased(boolean leased) {
+        this.leased = leased;
+    }
+
+    public boolean isLeased() {
+        return leased;
+    }
+
+    @Override
+    public String toString(){
+        String lease;
+        if (leased) {
+            lease = "yes";
+        } else {
+            lease = "no";
+        }
+        return inventoryId + " " + model + " " + type + " " + manufacturer + " leased: " + lease;
     }
 }

@@ -1,8 +1,9 @@
 package com.music4you.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Club extends Leaser {
+public class Club extends Leaser implements Serializable {
     // Declare attributes
     private String contactPerson;
     private Date foundation;
@@ -15,7 +16,7 @@ public class Club extends Leaser {
         this.foundation = inFoundation;
     }
 
-    /*
+    /**
      * Setting & getting the contact person
      */
     public void setContactPerson(String contactPerson){
@@ -27,7 +28,7 @@ public class Club extends Leaser {
     }
 
 
-    /*
+    /**
      * Setting & getting the date of the foundation of the club
      */
     public void setFoundation(Date foundation){

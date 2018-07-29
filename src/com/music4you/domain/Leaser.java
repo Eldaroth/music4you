@@ -1,6 +1,15 @@
 package com.music4you.domain;
 
-public class Leaser {
+import java.io.Serializable;
+
+/**
+ * Class describes someone who is renting an instrument
+ *
+ * @author Eldaroth
+ * @version 1.0
+ */
+
+public class Leaser implements Serializable {
     // Declare attributes
     private static int nextId = 1;
 
@@ -20,7 +29,7 @@ public class Leaser {
         nextId++;
     }
 
-    /*
+    /**
      * setting & getting clients unique number/id
      */
     public void setId(int id) {
@@ -32,7 +41,7 @@ public class Leaser {
     }
 
 
-    /*
+    /**
      * Setting & getting clients name
      */
     public void setName (String name) {
@@ -44,7 +53,7 @@ public class Leaser {
     }
 
 
-    /*
+    /**
      * setting & getting clients address, e-mail & phone no.
      */
     public void setAddress(String street, String houseNumber, String zipCity) {
@@ -71,10 +80,10 @@ public class Leaser {
         return phoneNumber;
     }
 
-
-    /*
+    /**
      *returns short summary of personal details of client
      */
+    @Override
     public String toString() {
         return this.id + " / " + this.name;
     }

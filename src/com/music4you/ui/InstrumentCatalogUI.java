@@ -1,5 +1,10 @@
 package com.music4you.ui;
 
+import com.music4you.business.api.Administration;
+import com.music4you.domain.Instrument;
+import com.sun.org.apache.xpath.internal.SourceTree;
+
+import java.util.Iterator;
 import java.util.Scanner;
 
 /**
@@ -10,6 +15,11 @@ import java.util.Scanner;
  */
 
 public class InstrumentCatalogUI {
+    private static Administration administration;
+
+    public InstrumentCatalogUI(Administration administration) {
+        this.administration = administration;
+    }
 
     /**
      * Responsible for executing the program
@@ -24,7 +34,7 @@ public class InstrumentCatalogUI {
     public static void showMenu() {
         Scanner showMenu = new Scanner(System.in);
 
-        //while (true) {
+        while (true) {
             try { // catches the exception if the user does not enter an int variable
                 MenuSkeleton subMain = new MenuSkeleton("Instrument catalog", "Back to Main Menu");
                 subMain.addMenuItem("Add instrument");
@@ -36,7 +46,7 @@ public class InstrumentCatalogUI {
                 switch (chosenOption) {
 
                     case 1:
-                        System.out.println("\nIn development");
+                        addInstrument();
                         break;
 
                     case 2:
@@ -56,7 +66,7 @@ public class InstrumentCatalogUI {
                 System.out.println("\n \n \nInvalid Input. Please enter a number.");
                 showMenu();
             }
-        //}
+        }
     }
 
     /*
@@ -69,8 +79,8 @@ public class InstrumentCatalogUI {
             try { // catches the exception if the user does not enter an int variable
                 MenuSkeleton subSearch = new MenuSkeleton("Search Instrument catalog", "Back to previous menu");
                 subSearch.setOptionalText("I'd like to search for:");
-                subSearch.addMenuItem("Inventory ID");
-                subSearch.addMenuItem("Model number");
+                //subSearch.addMenuItem("Inventory ID");
+                subSearch.addMenuItem("Model");
                 subSearch.addMenuItem("Type of instrument");
                 subSearch.addMenuItem("Manufacturer");
                 subSearch.addMenuItem("Show all instruments");
@@ -81,23 +91,71 @@ public class InstrumentCatalogUI {
                 switch (chosenOption) {
 
                     case 1:
-                        System.out.println("\nIn development");
+                        try {
+                            Scanner scModel = new Scanner(System.in);
+                            System.out.print("Enter model: ");
+                            String model = scModel.nextLine();
+
+                            System.out.println("\n \n");
+                            System.out.println(administration.findInstrModel(model));
+
+                            System.out.println("\n \nPlease press enter to continue");
+                            System.in.read();
+                        } catch (Exception e) {
+                            System.out.println("Input not valid");
+                            break;
+                        }
                         break;
 
                     case 2:
-                        System.out.println("\nIn development");
+                        try {
+                            Scanner scType = new Scanner(System.in);
+                            System.out.print("Enter type: ");
+                            String type = scType.nextLine();
+
+                            System.out.println("\n \n");
+                            System.out.println(administration.findInstrType(type));
+
+                            System.out.println("\n \nPlease press enter to continue");
+                            System.in.read();
+                        } catch (Exception e) {
+                            System.out.println("Input not valid");
+                            break;
+                        }
                         break;
 
                     case 3:
-                        System.out.println("\nIn development");
+                        try {
+                            Scanner scType = new Scanner(System.in);
+                            System.out.print("Enter manufacturer: ");
+                            String manuf = scType.nextLine();
+
+                            System.out.println("\n \n");
+                            System.out.println(administration.findInstrManuf(manuf));
+
+                            System.out.println("\n \nPlease press enter to continue");
+                            System.in.read();
+                        } catch (Exception e) {
+                            System.out.println("Input not valid");
+                            break;
+                        }
                         break;
 
                     case 4:
-                        System.out.println("\nIn development");
-                        break;
+                        try {
+                            System.out.println("\n \n");
+                            Iterator<Instrument> itInstr = administration.showAllInstr().iterator();
+                            while (itInstr.hasNext()) {
+                                String instr = itInstr.next().toString();
+                                System.out.println(instr);
+                            }
+                            System.out.println("\n \nPlease press enter to continue");
+                            System.in.read();
 
-                    case 5:
-                        System.out.println("\nIn development");
+                        } catch (Exception e) {
+                            System.out.println("Could not been processed");
+                            break;
+                        }
                         break;
 
                     case 0:
@@ -111,7 +169,7 @@ public class InstrumentCatalogUI {
             }
             catch (Exception e) {
                 System.out.println("\n \n \nInvalid Input. Please enter a number.");
-                showMenu();
+                instrumentSearchFor();
             }
         //}
     }
@@ -120,6 +178,31 @@ public class InstrumentCatalogUI {
      * Adds an instrument to the catalog
      */
     public static void addInstrument() {
-        System.out.println("In development");
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Model: ");
+        String model = sc.nextLine();
+
+        System.out.print("Type: ");
+        String type = sc.nextLine();
+
+        System.out.print("Manufacturer: ");
+        String manufacturer = sc.nextLine();
+
+        Instrument instr = new Instrument(model, type, manufacturer);
+
+        try {
+            Scanner sc1 = new Scanner(System.in);
+            administration.addInstrument(instr);
+
+            System.out.println("Instrument successfully added to catalog");
+            System.out.println("Please confirm with enter");
+            sc1.nextLine();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Instrument could not been added to catalog");
+        }
     }
 }

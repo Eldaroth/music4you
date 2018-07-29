@@ -1,19 +1,37 @@
 package com.music4you.ui;
 
-import java.awt.*;
-import java.util.ArrayList;
+import com.music4you.business.api.Administration;
+
 import java.util.Scanner;
 
-public class MainMenu {
+/**
+ * Creates and shows the Main Menu of the program
+ *
+ * @author Eldaroth
+ * @version 1.0
+ */
 
+public class MainMenu {
+    private static Administration administration;
+
+    public MainMenu(Administration administration) {
+        this.administration = administration;
+    }
+
+    /**
+     * Responsible for executing the program
+     */
     public void execute() {
         MainMenu.showMain();
     }
 
+    /**
+     * Creates the entry menu for the user
+     */
     public static void showMain() {
         Scanner sc = new Scanner(System.in);
 
-        while (true) {
+        //while (true) {
             /*System.out.println("\n \n \n");
             System.out.println("Main Menu");
             System.out.println("******************************");
@@ -26,45 +44,52 @@ public class MainMenu {
             System.out.println("");
             System.out.print("Please chose your option: ");*/
 
-            MenuSkeleton main = new MenuSkeleton("Main Menu", "Exit program");
-            main.addMenuItem("Instrument catalog");
-            main.addMenuItem("Client registry");
-            main.addMenuItem("Renting");
-            main.printMenu();
+            try { // catches the exception if the user does not enter an int variable
+                MenuSkeleton main = new MenuSkeleton("Main Menu", "Exit program");
+                main.addMenuItem("Instrument catalog");
+                main.addMenuItem("Client registry");
+                main.addMenuItem("Renting");
+                main.printMenu();
 
-            int chosenOption = sc.nextInt();
+                int chosenOption = sc.nextInt();
 
-            switch (chosenOption) {
+                switch (chosenOption) {
 
-                case 1:
-                    InstrumentCatalogUI submenu1 = new InstrumentCatalogUI();
-                    submenu1.showMenu();
-                    break;
+                    case 1:
+                        InstrumentCatalogUI submenu1 = new InstrumentCatalogUI(administration);
+                        submenu1.showMenu();
+                        break;
 
-                case 2:
-                    System.out.println("\nIn development");
-                    break;
+                    case 2:
+                        System.out.println("\nIn development");
+                        break;
 
-                case 3:
-                    System.out.println("\nIn development");
-                    break;
+                    case 3:
+                        System.out.println("\nIn development");
+                        break;
 
-                case 0:
-                    MainMenu.finish();
+                    case 0:
+                        MainMenu.finish();
+                        break;
 
-                default:
-                    System.out.println("\n \n \nPlease chose a valid option");
+                    default:
+                        System.out.println("\n \n \nPlease chose a valid option");
+                }
+            }
+            catch (Exception e) {
+                System.out.println("\n \n \nInvalid Input. Please enter a number.");
+                showMain();
             }
 
-        }
+        //}
     }
 
-    /*
+    /**
      * finishes & stops the application
      */
     public static void finish() {
         System.out.println("\nProgram stopped.");
-        System.exit(1);
+        System.exit(0);
     }
 
 }

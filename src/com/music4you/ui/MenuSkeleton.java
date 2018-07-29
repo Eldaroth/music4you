@@ -1,8 +1,13 @@
 package com.music4you.ui;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Scanner;
+
+/**
+ * Class is used for creating the menus in the app
+ *
+ * @author Eldaroth
+ * @version 1.0
+ */
 
 public class MenuSkeleton {
     private String title;
@@ -68,15 +73,6 @@ public class MenuSkeleton {
 
     public String getOptionalText() {
         return optionalText;
-    }
-
-    public int userSelection(Scanner sc) {
-        try {
-            this.selection = sc.nextInt();
-            return this.selection;
-        } catch (Exception e) {
-            return 9;
-        }
     }
 
 }
