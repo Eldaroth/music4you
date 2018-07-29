@@ -6,14 +6,12 @@ import java.util.Date;
 public class Club extends Leaser implements Serializable {
     // Declare attributes
     private String contactPerson;
-    private Date foundation;
     private static final int LEASE_LENGTH = 1; //minimal lease length in months
 
     // Constructor
-    public Club (String inName, String inContactPerson, Date inFoundation) {
+    public Club (String inName, String inContactPerson) {
         super(inName);
         this.contactPerson = inContactPerson;
-        this.foundation = inFoundation;
     }
 
     /**
@@ -27,16 +25,9 @@ public class Club extends Leaser implements Serializable {
         return contactPerson;
     }
 
-
-    /**
-     * Setting & getting the date of the foundation of the club
-     */
-    public void setFoundation(Date foundation){
-        this.foundation = foundation;
+    @Override
+    public String toString(){
+        return getId() + " " + getName() + " " + getAddress() +
+                " " + getEmail() + " " + getPhoneNumber() + " " + getContactPerson();
     }
-
-    public Date getFoundation(){
-        return foundation;
-    }
-
 }

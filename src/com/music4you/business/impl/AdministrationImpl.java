@@ -1,7 +1,10 @@
 package com.music4you.business.impl;
 
 import com.music4you.business.api.Administration;
+import com.music4you.domain.Club;
 import com.music4you.domain.Instrument;
+import com.music4you.domain.Leaser;
+import com.music4you.domain.Person;
 import com.music4you.persister.api.Persister;
 
 import java.util.ArrayList;
@@ -18,11 +21,31 @@ public class AdministrationImpl implements Administration {
     @Override
     public Instrument addInstrument(Instrument instr) throws Exception {
         if (persister.loadAllInstr().contains(instr)) {
-            throw new Exception("Entry already existing.");
+            throw new Exception("Entry already existing");
         } else {
             persister.save(instr);
         }
         return instr;
+    }
+
+    @Override
+    public Club addClub(Club club) throws Exception {
+        if (persister.loadAllClubs().contains(club)) {
+            throw new Exception("Entry already existing");
+        } else {
+            persister.save(club);
+        }
+        return club;
+    }
+
+    @Override
+    public Person addPerson(Person person) throws Exception {
+        if (persister.loadAllPerson().contains(person)) {
+            throw new Exception("Entry already existing");
+        } else {
+            persister.save(person);
+        }
+        return person;
     }
 
     @Override
@@ -55,6 +78,18 @@ public class AdministrationImpl implements Administration {
     @Override
     public List<Instrument> showAllInstr() throws Exception {
         ArrayList<Instrument> listAll = new ArrayList<>(persister.loadAllInstr());
+        return listAll;
+    }
+
+    @Override
+    public List<Club> showAllClubs() throws Exception {
+        ArrayList<Club> listAll = new ArrayList<>(persister.loadAllClubs());
+        return listAll;
+    }
+
+    @Override
+    public List<Person> showAllPerson() throws Exception {
+        ArrayList<Person> listAll = new ArrayList<>(persister.loadAllPerson());
         return listAll;
     }
 

@@ -61,7 +61,8 @@ public class MainMenu {
                         break;
 
                     case 2:
-                        System.out.println("\nIn development");
+                        ClientRegistryUI submenu2 = new ClientRegistryUI(administration);
+                        submenu2.showMenu();
                         break;
 
                     case 3:

@@ -1,13 +1,16 @@
 package com.music4you.business.api;
 
+import com.music4you.domain.Club;
 import com.music4you.domain.Instrument;
+import com.music4you.domain.Leaser;
+import com.music4you.domain.Person;
 
 import java.util.List;
 
 public interface Administration {
 
     /**
-     * Adds an Object (Instrument, Leaser, etc.) to the database file
+     * Adds an instrument to the database file
      *
      * @param instr
      * @return
@@ -15,6 +18,16 @@ public interface Administration {
      */
     Object addInstrument(Instrument instr) throws Exception;
 
+    Club addClub(Club club) throws Exception;
+
+    Person addPerson(Person person) throws Exception;
+
+    /**
+     * Searches for an instrument in the database file with given model
+     * @param model
+     * @return
+     * @throws Exception
+     */
     Instrument findInstrModel(String model) throws Exception;
 
     Instrument findInstrType(String type) throws Exception;
@@ -28,5 +41,9 @@ public interface Administration {
      * @throws Exception
      */
     List<Instrument> showAllInstr() throws Exception;
+
+    List<Club> showAllClubs() throws Exception;
+
+    List<Person> showAllPerson() throws Exception;
 
 }

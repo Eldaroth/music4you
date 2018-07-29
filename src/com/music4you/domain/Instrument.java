@@ -19,6 +19,7 @@ public class Instrument implements Serializable {
     private int inventoryId;
     private boolean leased;
 
+    //TODO find a way to continue inventory ID even after closing the program
     // Constructor
     public Instrument (String inModel, String inType, String inManufacturer) {
         this.model = inModel;

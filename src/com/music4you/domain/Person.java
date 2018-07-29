@@ -1,16 +1,16 @@
 package com.music4you.domain;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Person extends Leaser implements Serializable {
     // Declare attributes
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     private String firstName;
     private static final int LEASE_LENGTH = 6; //minimal lease length in months
 
     // Constructor
-    public Person (String inName, String inFirstName, Date inDateOfBirth) {
+    public Person (String inName, String inFirstName, LocalDate inDateOfBirth) {
         super(inName);
         this.dateOfBirth = inDateOfBirth;
         this.firstName = inFirstName;
@@ -19,11 +19,11 @@ public class Person extends Leaser implements Serializable {
     /**
      * Setting & getting the date of birth of the client
      */
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
@@ -37,6 +37,12 @@ public class Person extends Leaser implements Serializable {
 
     public String getFirstName() {
         return firstName;
+    }
+
+    @Override
+    public String toString(){
+        return getId() + " " + getName() + ", " + firstName + " " + getAddress() +
+                " " + getEmail() + " " + getPhoneNumber() + " " + getDateOfBirth();
     }
 
 }

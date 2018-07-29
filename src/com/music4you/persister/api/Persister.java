@@ -15,6 +15,10 @@ public interface Persister {
      */
     Instrument save(Instrument instr) throws Exception;
 
+    Person save(Person person) throws Exception;
+
+    Club save(Club club) throws Exception;
+
     /**
      * Searches for the instrument with given model
      * @param model
@@ -23,8 +27,20 @@ public interface Persister {
      */
     Instrument findInstrModel(String model) throws Exception;
 
+    /**
+     * Searches for the instrument with given type
+     * @param type
+     * @return
+     * @throws Exception
+     */
     Instrument findInstrType(String type) throws Exception;
 
+    /**
+     * Searches for the instrument with given manufacturer
+     * @param manuf
+     * @return
+     * @throws Exception
+     */
     Instrument findInstrManuf(String manuf) throws Exception;
 
     /**
@@ -34,5 +50,9 @@ public interface Persister {
      * @throws Exception
      */
     List<Instrument> loadAllInstr() throws Exception;
+
+    List<Club> loadAllClubs() throws Exception;
+
+    List<Person> loadAllPerson() throws Exception;
 
 }

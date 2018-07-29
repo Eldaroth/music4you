@@ -36,7 +36,7 @@ public class Leaser implements Serializable {
         this.id = id;
     }
 
-    public int id() {
+    public int getId() {
         return id;
     }
 
@@ -56,8 +56,8 @@ public class Leaser implements Serializable {
     /**
      * setting & getting clients address, e-mail & phone no.
      */
-    public void setAddress(String street, String houseNumber, String zipCity) {
-        this.address = street + " " + houseNumber + ", " + zipCity;
+    public void setAddress(String street, String zipCity) {
+        this.address = street + " " + zipCity;
     }
 
     public String getAddress() {

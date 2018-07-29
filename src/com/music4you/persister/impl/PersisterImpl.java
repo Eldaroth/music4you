@@ -1,6 +1,9 @@
 package com.music4you.persister.impl;
 
+import com.music4you.domain.Club;
 import com.music4you.domain.Instrument;
+import com.music4you.domain.Leaser;
+import com.music4you.domain.Person;
 import com.music4you.persister.api.Persister;
 
 import java.io.*;
@@ -31,6 +34,36 @@ public class PersisterImpl implements Persister{
             oos.writeObject(listInstr);
         }
         return instr;
+    }
+
+    public Club save(Club club) throws Exception {
+        List<Club> listClub = new ArrayList<>();
+
+        if (file.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+                listClub = (ArrayList<Club>) ois.readObject();
+            }
+        }
+        listClub.add(club);
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            oos.writeObject(listClub);
+        }
+        return club;
+    }
+
+    public Person save(Person person) throws Exception {
+        List<Person> listPerson = new ArrayList<>();
+
+        if (file.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+                listPerson = (ArrayList<Person>) ois.readObject();
+            }
+        }
+        listPerson.add(person);
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            oos.writeObject(listPerson);
+        }
+        return person;
     }
 
     @Override
@@ -79,6 +112,40 @@ public class PersisterImpl implements Persister{
             return new ArrayList<Instrument>();
         }
 
+    }
+
+    @Override
+    public List<Club> loadAllClubs() throws Exception {
+        ArrayList<Club> listAll = new ArrayList<>();
+
+        if (file.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+                listAll = (ArrayList<Club>) ois.readObject();
+            }
+        }
+
+        if (listAll != null) {
+            return listAll;
+        } else {
+            return new ArrayList<Club>();
+        }
+    }
+
+    @Override
+    public List<Person> loadAllPerson() throws Exception {
+        ArrayList<Person> listAll = new ArrayList<>();
+
+        if (file.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+                listAll = (ArrayList<Person>) ois.readObject();
+            }
+        }
+
+        if (listAll != null) {
+            return listAll;
+        } else {
+            return new ArrayList<Person>();
+        }
     }
 
 }
