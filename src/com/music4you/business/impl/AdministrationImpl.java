@@ -1,10 +1,8 @@
 package com.music4you.business.impl;
 
 import com.music4you.business.api.Administration;
-import com.music4you.domain.Club;
 import com.music4you.domain.Instrument;
 import com.music4you.domain.Leaser;
-import com.music4you.domain.Person;
 import com.music4you.persister.api.Persister;
 
 import java.util.ArrayList;

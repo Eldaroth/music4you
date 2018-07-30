@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Scanner;
 
 public class ClientRegistryUI {
@@ -174,7 +173,7 @@ public class ClientRegistryUI {
                         System.out.println("Person:");
                         System.out.println("--------------------");
                         try {
-                            List<Leaser> allLeaser = administration.showAllLeaser();
+                            ArrayList<Leaser> allLeaser = administration.showAllLeaser();
                             isEmpty2 = allLeaser.isEmpty();
                             if (isEmpty2) {
                                 System.out.println("No entries");

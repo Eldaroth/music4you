@@ -1,4 +1,6 @@
-package com.music4you.domain;
+package com.music4you.domain.old;
+
+import com.music4you.domain.Leaser;
 
 import java.io.Serializable;
 import java.time.LocalDate;

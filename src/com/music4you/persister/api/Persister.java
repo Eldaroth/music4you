@@ -2,7 +2,7 @@ package com.music4you.persister.api;
 
 import com.music4you.domain.*;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface Persister {
 
@@ -48,14 +48,14 @@ public interface Persister {
      * @return
      * @throws Exception
      */
-    List<Instrument> loadAllInstr() throws Exception;
+    ArrayList<Instrument> loadAllInstr() throws Exception;
 
     /**
      * Loads all club objects in file
      * @return
      * @throws Exception
      */
-    List<Leaser> loadAllLeaser() throws Exception;
+    ArrayList<Leaser> loadAllLeaser() throws Exception;
 
     /**
      * Loads all person objects in file

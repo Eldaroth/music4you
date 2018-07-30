@@ -1,9 +1,7 @@
 package com.music4you.persister.impl;
 
-import com.music4you.domain.Club;
 import com.music4you.domain.Instrument;
 import com.music4you.domain.Leaser;
-import com.music4you.domain.Person;
 import com.music4you.persister.api.Persister;
 
 import java.io.*;
