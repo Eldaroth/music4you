@@ -5,22 +5,21 @@ import com.music4you.domain.Instrument;
 import com.music4you.domain.Leaser;
 import com.music4you.domain.Person;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface Administration {
 
     /**
      * Adds an instrument to the database file
-     *
      * @param instr
      * @return
      * @throws Exception
      */
     Object addInstrument(Instrument instr) throws Exception;
 
-    Club addClub(Club club) throws Exception;
+    Leaser addLeaser(Leaser leaser) throws Exception;
 
-    Person addPerson(Person person) throws Exception;
+    //Person addPerson(Person person) throws Exception;
 
     /**
      * Searches for an instrument in the database file with given model
@@ -36,14 +35,13 @@ public interface Administration {
 
     /**
      * Shows all the Entries in the database file for a certain type of Object
-     *
      * @return
      * @throws Exception
      */
-    List<Instrument> showAllInstr() throws Exception;
+    ArrayList<Instrument> showAllInstr() throws Exception;
 
-    List<Club> showAllClubs() throws Exception;
+    ArrayList<Leaser> showAllLeaser() throws Exception;
 
-    List<Person> showAllPerson() throws Exception;
+    //ArrayList<Person> showAllPerson() throws Exception;
 
 }

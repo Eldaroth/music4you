@@ -8,63 +8,63 @@ import com.music4you.persister.api.Persister;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PersisterImpl implements Persister{
 
     String userHomeDir = System.getProperty("user.home");
-    String fileName = userHomeDir + File.separator + "music4youSerialized.txt";
-    File file = new File(fileName);
+    String instrFileName = userHomeDir + File.separator + "music4youInstrSerialized.txt";
+    String clubFileName = userHomeDir + File.separator + "music4youClubSerialized.txt";
+    String persFileName = userHomeDir + File.separator + "music4youPersonSerialized.txt";
+    File instrFile = new File(instrFileName);
+    File clubFile = new File(clubFileName);
+    File persFile = new File(persFileName);
 
     /*
      * @see com.music4you.business.api.Administration#save
      */
-    public Instrument save(Instrument instr) throws Exception {
-        List<Instrument> listInstr = new ArrayList<>();
+    public void save(Instrument instr) throws IOException, ClassNotFoundException {
+        ArrayList<Instrument> listInstr = new ArrayList<Instrument>();
         /*
          *Checks whether a file already exists and stores all the data in a new list
          */
-        if (file.exists()) {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+        if (instrFile.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(instrFileName))) {
                 listInstr = (ArrayList<Instrument>) ois.readObject();
             }
         }
         listInstr.add(instr);
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(instrFileName))) {
             oos.writeObject(listInstr);
         }
-        return instr;
     }
 
-    public Club save(Club club) throws Exception {
-        List<Club> listClub = new ArrayList<>();
+    public void save(Leaser leaser) throws IOException, ClassNotFoundException {
+        ArrayList<Leaser> listLeaser = new ArrayList<Leaser>();
 
-        if (file.exists()) {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-                listClub = (ArrayList<Club>) ois.readObject();
+        if (clubFile.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(clubFileName))) {
+                listLeaser = (ArrayList<Leaser>) ois.readObject();
             }
         }
-        listClub.add(club);
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
-            oos.writeObject(listClub);
+        listLeaser.add(leaser);
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(clubFileName))) {
+            oos.writeObject(listLeaser);
         }
-        return club;
     }
 
-    public Person save(Person person) throws Exception {
-        List<Person> listPerson = new ArrayList<>();
-
-        if (file.exists()) {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-                listPerson = (ArrayList<Person>) ois.readObject();
-            }
-        }
-        listPerson.add(person);
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
-            oos.writeObject(listPerson);
-        }
-        return person;
-    }
+//    public void save(Person person) throws IOException, ClassNotFoundException {
+//        ArrayList<Person> listPerson = new ArrayList<>();
+//
+//        if (persFile.exists()) {
+//            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(persFileName))) {
+//                listPerson = (ArrayList<Person>) ois.readObject();
+//            }
+//        }
+//        listPerson.add(person);
+//        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(persFileName))) {
+//            oos.writeObject(listPerson);
+//        }
+//    }
 
     @Override
     public Instrument findInstrModel(String model) throws Exception {
@@ -97,11 +97,11 @@ public class PersisterImpl implements Persister{
     }
 
     @Override
-    public List<Instrument> loadAllInstr() throws Exception {
+    public ArrayList<Instrument> loadAllInstr() throws IOException, ClassNotFoundException {
         ArrayList<Instrument> listAll = new ArrayList<>();
 
-        if (file.exists()) {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+        if (instrFile.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(instrFileName))) {
                 listAll = (ArrayList<Instrument>) ois.readObject();
             }
         }
@@ -115,37 +115,37 @@ public class PersisterImpl implements Persister{
     }
 
     @Override
-    public List<Club> loadAllClubs() throws Exception {
-        ArrayList<Club> listAll = new ArrayList<>();
+    public ArrayList<Leaser> loadAllLeaser() throws IOException, ClassNotFoundException {
+        ArrayList<Leaser> listAll = new ArrayList<Leaser>();
 
-        if (file.exists()) {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-                listAll = (ArrayList<Club>) ois.readObject();
+        if (clubFile.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(clubFileName))) {
+                listAll = (ArrayList<Leaser>) ois.readObject();
             }
         }
 
         if (listAll != null) {
             return listAll;
         } else {
-            return new ArrayList<Club>();
+            return new ArrayList<Leaser>();
         }
     }
 
-    @Override
-    public List<Person> loadAllPerson() throws Exception {
-        ArrayList<Person> listAll = new ArrayList<>();
-
-        if (file.exists()) {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-                listAll = (ArrayList<Person>) ois.readObject();
-            }
-        }
-
-        if (listAll != null) {
-            return listAll;
-        } else {
-            return new ArrayList<Person>();
-        }
-    }
+//    @Override
+//    public ArrayList<Person> loadAllPerson() throws IOException, ClassNotFoundException {
+//        ArrayList<Person> listAll = new ArrayList<>();
+//
+//        if (persFile.exists()) {
+//            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(persFileName))) {
+//                listAll = (ArrayList<Person>) ois.readObject();
+//            }
+//        }
+//
+//        if (listAll != null) {
+//            return listAll;
+//        } else {
+//            return new ArrayList<Person>();
+//        }
+//    }
 
 }

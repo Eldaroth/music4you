@@ -2,7 +2,6 @@ package com.music4you.ui;
 
 import com.music4you.business.api.Administration;
 import com.music4you.domain.Instrument;
-import com.sun.org.apache.xpath.internal.SourceTree;
 
 import java.util.Iterator;
 import java.util.Scanner;
@@ -79,7 +78,6 @@ public class InstrumentCatalogUI {
             try { // catches the exception if the user does not enter an int variable
                 MenuSkeleton subSearch = new MenuSkeleton("Search Instrument catalog", "Back to previous menu");
                 subSearch.setOptionalText("I'd like to search for:");
-                //subSearch.addMenuItem("Inventory ID");
                 subSearch.addMenuItem("Model");
                 subSearch.addMenuItem("Type of instrument");
                 subSearch.addMenuItem("Manufacturer");

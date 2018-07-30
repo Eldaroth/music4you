@@ -10,19 +10,18 @@ public interface Persister {
      * Saves a new instrument
      *
      * @param instr
-     * @return
      * @throws Exception
      */
-    Instrument save(Instrument instr) throws Exception;
+    void save(Instrument instr) throws Exception;
 
-    Person save(Person person) throws Exception;
+    void save(Leaser leaser) throws Exception;
 
-    Club save(Club club) throws Exception;
+    //void save(Person person) throws Exception;
 
     /**
      * Searches for the instrument with given model
      * @param model
-     * @return
+     * @return Instrument
      * @throws Exception
      */
     Instrument findInstrModel(String model) throws Exception;
@@ -30,7 +29,7 @@ public interface Persister {
     /**
      * Searches for the instrument with given type
      * @param type
-     * @return
+     * @return Instrument
      * @throws Exception
      */
     Instrument findInstrType(String type) throws Exception;
@@ -38,21 +37,31 @@ public interface Persister {
     /**
      * Searches for the instrument with given manufacturer
      * @param manuf
-     * @return
+     * @return Instrument
      * @throws Exception
      */
     Instrument findInstrManuf(String manuf) throws Exception;
 
     /**
-     * Loads all instruments objects in the file
+     * Loads all instruments objects in file
      *
      * @return
      * @throws Exception
      */
     List<Instrument> loadAllInstr() throws Exception;
 
-    List<Club> loadAllClubs() throws Exception;
+    /**
+     * Loads all club objects in file
+     * @return
+     * @throws Exception
+     */
+    List<Leaser> loadAllLeaser() throws Exception;
 
-    List<Person> loadAllPerson() throws Exception;
+    /**
+     * Loads all person objects in file
+     * @return
+     * @throws Exception
+     */
+    //List<Person> loadAllPerson() throws Exception;
 
 }

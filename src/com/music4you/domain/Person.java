@@ -42,7 +42,7 @@ public class Person extends Leaser implements Serializable {
     @Override
     public String toString(){
         return getId() + " " + getName() + ", " + firstName + " " + getAddress() +
-                " " + getEmail() + " " + getPhoneNumber() + " " + getDateOfBirth();
+                " " + getContact() + " "  + getDateOfBirth();
     }
 
 }

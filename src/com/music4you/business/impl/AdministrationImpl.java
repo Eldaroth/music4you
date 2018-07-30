@@ -8,7 +8,6 @@ import com.music4you.domain.Person;
 import com.music4you.persister.api.Persister;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class AdministrationImpl implements Administration {
 
@@ -29,24 +28,24 @@ public class AdministrationImpl implements Administration {
     }
 
     @Override
-    public Club addClub(Club club) throws Exception {
-        if (persister.loadAllClubs().contains(club)) {
+    public Leaser addLeaser(Leaser leaser) throws Exception {
+        if (persister.loadAllLeaser().contains(leaser)) {
             throw new Exception("Entry already existing");
         } else {
-            persister.save(club);
+            persister.save(leaser);
         }
-        return club;
+        return leaser;
     }
 
-    @Override
-    public Person addPerson(Person person) throws Exception {
-        if (persister.loadAllPerson().contains(person)) {
-            throw new Exception("Entry already existing");
-        } else {
-            persister.save(person);
-        }
-        return person;
-    }
+//    @Override
+//    public Person addPerson(Person person) throws Exception {
+//        if (persister.loadAllPerson().contains(person)) {
+//            throw new Exception("Entry already existing");
+//        } else {
+//            persister.save(person);
+//        }
+//        return person;
+//    }
 
     @Override
     public Instrument findInstrModel(String model) throws Exception {
@@ -76,21 +75,21 @@ public class AdministrationImpl implements Administration {
     }
 
     @Override
-    public List<Instrument> showAllInstr() throws Exception {
-        ArrayList<Instrument> listAll = new ArrayList<>(persister.loadAllInstr());
+    public ArrayList<Instrument> showAllInstr() throws Exception {
+        ArrayList<Instrument> listAll = new ArrayList<Instrument>(persister.loadAllInstr());
         return listAll;
     }
 
     @Override
-    public List<Club> showAllClubs() throws Exception {
-        ArrayList<Club> listAll = new ArrayList<>(persister.loadAllClubs());
+    public ArrayList<Leaser> showAllLeaser() throws Exception {
+        ArrayList<Leaser> listAll = new ArrayList<Leaser>(persister.loadAllLeaser());
         return listAll;
     }
 
-    @Override
-    public List<Person> showAllPerson() throws Exception {
-        ArrayList<Person> listAll = new ArrayList<>(persister.loadAllPerson());
-        return listAll;
-    }
+//    @Override
+//    public ArrayList<Person> showAllPerson() throws Exception {
+//        ArrayList<Person> listAll = new ArrayList<Person>(persister.loadAllPerson());
+//        return listAll;
+//    }
 
 }

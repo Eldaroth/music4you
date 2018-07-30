@@ -1,12 +1,10 @@
 package com.music4you.ui;
 
 import com.music4you.business.api.Administration;
-import com.music4you.domain.Club;
-import com.music4you.domain.Instrument;
+import com.music4you.domain.Address;
+import com.music4you.domain.Contact;
 import com.music4you.domain.Leaser;
-import com.music4you.domain.Person;
 
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 
 import java.time.format.DateTimeFormatter;
@@ -80,7 +78,6 @@ public class ClientRegistryUI {
             try { // catches the exception if the user does not enter an int variable
                 MenuSkeleton subSearch = new MenuSkeleton("Search client registry", "Back to previous menu");
                 subSearch.setOptionalText("I'd like to search for:");
-                //subSearch.addMenuItem("Inventory ID");
                 subSearch.addMenuItem("Name");
                 subSearch.addMenuItem("Address");
                 subSearch.addMenuItem("E-Mail");
@@ -143,40 +140,57 @@ public class ClientRegistryUI {
                         break;
 
                     case 4:
-                        //TODO sort out the exceptions, why does it throw one each time!?
                         System.out.println("\n \n");
                         boolean isEmpty = false;
                         System.out.println("Clubs:");
                         System.out.println("--------------------");
                         try {
-                            List<Club> allClubs = administration.showAllClubs();
-                            isEmpty = allClubs.isEmpty();
-                            Iterator<Club> itClub = allClubs.iterator();
+                            ArrayList<Leaser> allLeaser = administration.showAllLeaser();
+                            isEmpty = allLeaser.isEmpty();
                             if (isEmpty) {
                                 System.out.println("No entries");
-                                break;
                             }
+
+                            ArrayList<Leaser> allClubs = new ArrayList<Leaser>();
+                            for (Leaser temp : allLeaser) {
+                                if (temp.getContactPerson() != null) {
+                                    allClubs.add(temp);
+                                }
+                            }
+
+                            Iterator<Leaser> itClub = allClubs.iterator();
                             while (itClub.hasNext()) {
-                                String club = itClub.next().toString();
+                                String club = itClub.next().printClub();
                                 System.out.println(club);
                             }
                         } catch (Exception e) {
                             System.out.println("Could not been processed");
                         }
+                        System.out.println("\nPlease press enter to show Persons");
+                        System.in.read();
+
+                        System.out.println("\n");
                         boolean isEmpty2 = false;
                         System.out.println("Person:");
                         System.out.println("--------------------");
                         try {
-                            List<Person> allPerson = administration.showAllPerson();
-                            isEmpty2 = allPerson.isEmpty();
-                            Iterator<Person> itPerson = allPerson.iterator();
+                            List<Leaser> allLeaser = administration.showAllLeaser();
+                            isEmpty2 = allLeaser.isEmpty();
                             if (isEmpty2) {
                                 System.out.println("No entries");
-                                break;
                             }
+
+                            ArrayList<Leaser> allPerson = new ArrayList<Leaser>();
+                            for (Leaser temp : allLeaser) {
+                                if (temp.getDateOfBirth() != null) {
+                                    allPerson.add(temp);
+                                }
+                            }
+
+                            Iterator<Leaser> itPerson = allPerson.iterator();
                             while (itPerson.hasNext()) {
-                                String club = itPerson.next().toString();
-                                System.out.println(club);
+                                String person = itPerson.next().printPerson();
+                                System.out.println(person);
                             }
                         } catch (Exception e) {
                             System.out.println("Could not been processed");
@@ -228,26 +242,28 @@ public class ClientRegistryUI {
         System.out.print("Street & Nr.: ");
         String street = sc.nextLine();
 
-        System.out.print("ZIP Code & City: ");
-        String zipCity = sc.nextLine();
+        System.out.print("ZIP Code: ");
+        int zip = Integer.parseInt(sc.nextLine());
+
+        System.out.print("City: ");
+        String city = sc.nextLine();
 
         System.out.print("E-Mail: ");
         String email = sc.nextLine();
 
         System.out.print("Phone: ");
-        int phoneNumber = sc.nextInt();
+        String phoneNumber = sc.nextLine();
 
-        System.out.print("Contact Person: ");
+        System.out.print("Contact person: ");
         String contact = sc.nextLine();
 
-        Club club = new Club(name, contact);
-        club.setAddress(street, zipCity);
-        club.setEmail(email);
-        club.setPhoneNumber(phoneNumber);
+        Leaser club = new Leaser(name,contact);
+        club.setAddress(new Address(street, zip, city));
+        club.setContact(new Contact(phoneNumber, email));
 
         try {
             Scanner sc1 = new Scanner(System.in);
-            administration.addClub(club);
+            administration.addLeaser(club);
 
             System.out.println("Club successfully added to registry");
             System.out.println("Please confirm with enter");
@@ -269,29 +285,31 @@ public class ClientRegistryUI {
         String lastName = sc.nextLine();
 
         System.out.print("Date of Birth [dd.MM.yyyy]: ");
-        String dateOfBirth = sc.nextLine();
-        LocalDate dateOfBirth2 = LocalDate.parse(dateOfBirth, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        String dob = sc.nextLine();
+        LocalDate dateOfBirth = LocalDate.parse(dob, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
 
         System.out.print("Street & Nr.: ");
         String street = sc.nextLine();
 
-        System.out.print("ZIP Code & City: ");
-        String zipCity = sc.nextLine();
+        System.out.print("ZIP Code: ");
+        int zip = Integer.parseInt(sc.nextLine());
+
+        System.out.print("City: ");
+        String city = sc.nextLine();
 
         System.out.print("E-Mail: ");
         String email = sc.nextLine();
 
         System.out.print("Phone: ");
-        int phoneNumber = sc.nextInt();
+        String phoneNumber = sc.nextLine();
 
-        Person person = new Person(lastName, firstName, dateOfBirth2);
-        person.setAddress(street, zipCity);
-        person.setEmail(email);
-        person.setPhoneNumber(phoneNumber);
+        Leaser person = new Leaser(lastName, firstName, dateOfBirth);
+        person.setAddress(new Address(street, zip, city));
+        person.setContact(new Contact(phoneNumber, email));
 
         try {
             Scanner sc1 = new Scanner(System.in);
-            administration.addPerson(person);
+            administration.addLeaser(person);
 
             System.out.println("Client successfully added to registry");
             System.out.println("Please confirm with enter");

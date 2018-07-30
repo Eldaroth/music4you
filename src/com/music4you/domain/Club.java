@@ -1,7 +1,6 @@
 package com.music4you.domain;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Club extends Leaser implements Serializable {
     // Declare attributes
@@ -28,6 +27,6 @@ public class Club extends Leaser implements Serializable {
     @Override
     public String toString(){
         return getId() + " " + getName() + " " + getAddress() +
-                " " + getEmail() + " " + getPhoneNumber() + " " + getContactPerson();
+                " " + getContact() + " " +  getContactPerson();
     }
 }
