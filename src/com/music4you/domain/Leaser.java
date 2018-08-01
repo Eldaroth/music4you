@@ -24,6 +24,7 @@ public class Leaser implements Serializable {
     private Contact contact;
     private String contactPerson;
     private int leaseLength;
+    private boolean clubTag;
 
     // Constructor
     public Leaser(String inName) {
@@ -42,6 +43,7 @@ public class Leaser implements Serializable {
         this.firstName = inFirstName;
         this.dateOfBirth = inDateOfBirth;
         this.leaseLength = LEASE_LENGTH_PERSON;
+        this.clubTag = false;
     }
 
     // Constructor for a club as Leaser
@@ -49,6 +51,7 @@ public class Leaser implements Serializable {
         this(inName);
         this.contactPerson = inContactPerson;
         this.leaseLength = LEASE_LENGTH_CLUB;
+        this.clubTag = true;
     }
 
     public void setId(int id) {
@@ -106,6 +109,22 @@ public class Leaser implements Serializable {
 
     public void setContactPerson(String contactPerson) {
         this.contactPerson = contactPerson;
+    }
+
+    public int getLeaseLength() {
+        return leaseLength;
+    }
+
+    public void setLeaseLength(int leaseLength) {
+        this.leaseLength = leaseLength;
+    }
+
+    public boolean isClubTag() {
+        return clubTag;
+    }
+
+    public void setClubTag(boolean clubTag) {
+        this.clubTag = clubTag;
     }
 
     public String printClub() {

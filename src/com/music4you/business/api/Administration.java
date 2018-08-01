@@ -31,6 +31,12 @@ public interface Administration {
 
     Instrument findInstrManuf(String manuf) throws Exception;
 
+    Leaser findLeaserName(String name) throws Exception;
+
+    Leaser findLeaserEmail(String email) throws Exception;
+
+    Leaser findLeaserCity(String city) throws Exception;
+
     /**
      * Shows all the Entries in the database file for a certain type of Object
      * @return

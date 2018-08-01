@@ -67,7 +67,7 @@ public class ClientRegistryUI {
         }
     }
 
-        /*
+    /*
      * Creates the submenu for searching an instrument in the catalog
      */
     public static void clientSearchFor() {
@@ -78,8 +78,8 @@ public class ClientRegistryUI {
                 MenuSkeleton subSearch = new MenuSkeleton("Search client registry", "Back to previous menu");
                 subSearch.setOptionalText("I'd like to search for:");
                 subSearch.addMenuItem("Name");
-                subSearch.addMenuItem("Address");
                 subSearch.addMenuItem("E-Mail");
+                subSearch.addMenuItem("City");
                 subSearch.addMenuItem("Show all clients");
                 subSearch.printMenu();
 
@@ -94,7 +94,13 @@ public class ClientRegistryUI {
                             String name = scModel.nextLine();
 
                             System.out.println("\n \n");
-                            //System.out.println(administration.findClientName(name));
+                            Leaser temp = administration.findLeaserName(name);
+
+                            if (temp == null) {
+                                System.out.println("No client found");
+                            } else {
+                                System.out.println(temp.printPerson());
+                            }
 
                             System.out.println("\n \nPlease press enter to continue");
                             System.in.read();
@@ -107,11 +113,17 @@ public class ClientRegistryUI {
                     case 2:
                         try {
                             Scanner scType = new Scanner(System.in);
-                            System.out.print("Enter address: ");
-                            String address = scType.nextLine();
+                            System.out.print("Enter e-mail: ");
+                            String email = scType.nextLine();
 
                             System.out.println("\n \n");
-                            //System.out.println(administration.findClientAddress(address));
+                            Leaser temp = administration.findLeaserEmail(email);
+
+                            if (temp == null) {
+                                System.out.println("No client found");
+                            } else {
+                                System.out.println(temp.printPerson());
+                            }
 
                             System.out.println("\n \nPlease press enter to continue");
                             System.in.read();
@@ -124,11 +136,17 @@ public class ClientRegistryUI {
                     case 3:
                         try {
                             Scanner scType = new Scanner(System.in);
-                            System.out.print("Enter e-mail: ");
-                            String email = scType.nextLine();
+                            System.out.print("Enter city: ");
+                            String city = scType.nextLine();
 
                             System.out.println("\n \n");
-                            //System.out.println(administration.findClientEmail(email));
+                            Leaser temp = administration.findLeaserCity(city);
+
+                            if (temp == null) {
+                                System.out.println("No client found");
+                            } else {
+                                System.out.println(temp.printPerson());
+                            }
 
                             System.out.println("\n \nPlease press enter to continue");
                             System.in.read();
@@ -145,16 +163,15 @@ public class ClientRegistryUI {
                         System.out.println("--------------------");
                         try {
                             ArrayList<Leaser> allLeaser = administration.showAllLeaser();
-                            isEmpty = allLeaser.isEmpty();
-                            if (isEmpty) {
-                                System.out.println("No entries");
-                            }
-
                             ArrayList<Leaser> allClubs = new ArrayList<Leaser>();
                             for (Leaser temp : allLeaser) {
-                                if (temp.getContactPerson() != null) {
+                                if (temp.isClubTag()) {
                                     allClubs.add(temp);
                                 }
+                            }
+                            isEmpty = allClubs.isEmpty();
+                            if (isEmpty) {
+                                System.out.println("No entries");
                             }
 
                             Iterator<Leaser> itClub = allClubs.iterator();
@@ -165,25 +182,25 @@ public class ClientRegistryUI {
                         } catch (Exception e) {
                             System.out.println("Could not been processed");
                         }
-                        System.out.println("\nPlease press enter to show Persons");
+                        System.out.println("\nPlease press enter to show persons");
                         System.in.read();
 
                         System.out.println("\n");
                         boolean isEmpty2 = false;
-                        System.out.println("Person:");
+                        System.out.println("Persons:");
                         System.out.println("--------------------");
                         try {
-                            ArrayList<Leaser> allLeaser = administration.showAllLeaser();
-                            isEmpty2 = allLeaser.isEmpty();
-                            if (isEmpty2) {
-                                System.out.println("No entries");
-                            }
-
                             ArrayList<Leaser> allPerson = new ArrayList<Leaser>();
+                            ArrayList<Leaser> allLeaser = administration.showAllLeaser();
                             for (Leaser temp : allLeaser) {
-                                if (temp.getDateOfBirth() != null) {
+                                if (!temp.isClubTag()) {
                                     allPerson.add(temp);
                                 }
+                            }
+
+                            isEmpty2 = allPerson.isEmpty();
+                            if (isEmpty2) {
+                                System.out.println("No entries");
                             }
 
                             Iterator<Leaser> itPerson = allPerson.iterator();
@@ -264,13 +281,13 @@ public class ClientRegistryUI {
             Scanner sc1 = new Scanner(System.in);
             administration.addLeaser(club);
 
-            System.out.println("Club successfully added to registry");
-            System.out.println("Please confirm with enter");
+            System.out.println("\nClub successfully added to registry");
+            System.out.println("\nPlease confirm with enter");
             sc1.nextLine();
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Club could not been added to catalog");
+            System.out.println("\nClub could not been added to catalog");
         }
     }
 
@@ -310,13 +327,13 @@ public class ClientRegistryUI {
             Scanner sc1 = new Scanner(System.in);
             administration.addLeaser(person);
 
-            System.out.println("Client successfully added to registry");
-            System.out.println("Please confirm with enter");
+            System.out.println("\nClient successfully added to registry");
+            System.out.println("\nPlease confirm with enter");
             sc1.nextLine();
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Client could not been added to catalog");
+            System.out.println("\nClient could not been added to catalog");
         }
     }
 }

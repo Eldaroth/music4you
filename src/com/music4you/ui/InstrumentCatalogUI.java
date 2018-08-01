@@ -95,7 +95,13 @@ public class InstrumentCatalogUI {
                             String model = scModel.nextLine();
 
                             System.out.println("\n \n");
-                            System.out.println(administration.findInstrModel(model));
+                            Instrument temp = administration.findInstrModel(model);
+
+                            if (temp == null) {
+                                System.out.println("No instrument found");
+                            } else {
+                                System.out.println(temp);
+                            }
 
                             System.out.println("\n \nPlease press enter to continue");
                             System.in.read();
@@ -112,7 +118,13 @@ public class InstrumentCatalogUI {
                             String type = scType.nextLine();
 
                             System.out.println("\n \n");
-                            System.out.println(administration.findInstrType(type));
+                            Instrument temp = administration.findInstrType(type);
+
+                            if (temp == null) {
+                                System.out.println("No instrument found");
+                            } else {
+                                System.out.println(temp);
+                            }
 
                             System.out.println("\n \nPlease press enter to continue");
                             System.in.read();
@@ -129,7 +141,13 @@ public class InstrumentCatalogUI {
                             String manuf = scType.nextLine();
 
                             System.out.println("\n \n");
-                            System.out.println(administration.findInstrManuf(manuf));
+                            Instrument temp = administration.findInstrManuf(manuf);
+
+                            if (temp == null) {
+                                System.out.println("No instrument found");
+                            } else {
+                                System.out.println(temp);
+                            }
 
                             System.out.println("\n \nPlease press enter to continue");
                             System.in.read();
@@ -177,6 +195,7 @@ public class InstrumentCatalogUI {
      */
     public static void addInstrument() {
         Scanner sc = new Scanner(System.in);
+        System.out.println("");
 
         System.out.print("Model: ");
         String model = sc.nextLine();
@@ -193,14 +212,14 @@ public class InstrumentCatalogUI {
             Scanner sc1 = new Scanner(System.in);
             administration.addInstrument(instr);
 
-            System.out.println("Instrument successfully added to catalog");
-            System.out.println("Please confirm with enter");
+            System.out.println("\nInstrument successfully added to catalog");
+            System.out.println("\nPlease confirm with enter");
             sc1.nextLine();
 
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Instrument could not been added to catalog");
+            System.out.println("\nInstrument could not been added to catalog");
         }
     }
 }

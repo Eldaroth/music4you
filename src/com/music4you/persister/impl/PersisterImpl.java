@@ -11,11 +11,11 @@ public class PersisterImpl implements Persister{
 
     String userHomeDir = System.getProperty("user.home");
     String instrFileName = userHomeDir + File.separator + "music4youInstrSerialized.txt";
-    String clubFileName = userHomeDir + File.separator + "music4youClubSerialized.txt";
-    String persFileName = userHomeDir + File.separator + "music4youPersonSerialized.txt";
+    String leaserFileName = userHomeDir + File.separator + "music4youLeaserSerialized.txt";
+    //String persFileName = userHomeDir + File.separator + "music4youPersonSerialized.txt";
     File instrFile = new File(instrFileName);
-    File clubFile = new File(clubFileName);
-    File persFile = new File(persFileName);
+    File leaserFile = new File(leaserFileName);
+    //File persFile = new File(persFileName);
 
     /*
      * @see com.music4you.business.api.Administration#save
@@ -39,13 +39,13 @@ public class PersisterImpl implements Persister{
     public void save(Leaser leaser) throws IOException, ClassNotFoundException {
         ArrayList<Leaser> listLeaser = new ArrayList<Leaser>();
 
-        if (clubFile.exists()) {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(clubFileName))) {
+        if (leaserFile.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(leaserFileName))) {
                 listLeaser = (ArrayList<Leaser>) ois.readObject();
             }
         }
         listLeaser.add(leaser);
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(clubFileName))) {
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(leaserFileName))) {
             oos.writeObject(listLeaser);
         }
     }
@@ -95,6 +95,36 @@ public class PersisterImpl implements Persister{
     }
 
     @Override
+    public Leaser findLeaserName(String name) throws Exception {
+        for (Leaser temp : loadAllLeaser()) {
+            if (temp.getName().contains(name)) {
+                return temp;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Leaser findLeaserEmail(String email) throws Exception {
+        for (Leaser temp : loadAllLeaser()) {
+            if (temp.getContact().getEmail().contains(email)) {
+                return temp;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Leaser findLeaserCity(String city) throws Exception {
+        for (Leaser temp : loadAllLeaser()) {
+            if (temp.getAddress().getCity().contains(city)) {
+                return temp;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public ArrayList<Instrument> loadAllInstr() throws IOException, ClassNotFoundException {
         ArrayList<Instrument> listAll = new ArrayList<>();
 
@@ -116,8 +146,8 @@ public class PersisterImpl implements Persister{
     public ArrayList<Leaser> loadAllLeaser() throws IOException, ClassNotFoundException {
         ArrayList<Leaser> listAll = new ArrayList<Leaser>();
 
-        if (clubFile.exists()) {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(clubFileName))) {
+        if (leaserFile.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(leaserFileName))) {
                 listAll = (ArrayList<Leaser>) ois.readObject();
             }
         }

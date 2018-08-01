@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 public class Instrument implements Serializable {
     // Declare attributes
-    private static int nextInventoryId = 1;
+    //private static int nextInventoryId = 1;
 
     private String model;
     private String type;
@@ -25,8 +25,8 @@ public class Instrument implements Serializable {
         this.model = inModel;
         this.type = inType;
         this.manufacturer = inManufacturer;
-        this.inventoryId = Instrument.nextInventoryId;
-        nextInventoryId++;
+        //this.inventoryId = Instrument.nextInventoryId;
+        //nextInventoryId++;
         this.leased = false;
     }
 
@@ -93,6 +93,7 @@ public class Instrument implements Serializable {
         } else {
             lease = "no";
         }
-        return inventoryId + " " + model + " " + type + " " + manufacturer + " leased: " + lease;
+        return inventoryId + " Model: " + model + " / Type: " + type + " / Manufacturer: " + manufacturer
+                + " / Leased: " + lease;
     }
 }

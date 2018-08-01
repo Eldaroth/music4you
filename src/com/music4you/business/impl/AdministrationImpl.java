@@ -73,6 +73,33 @@ public class AdministrationImpl implements Administration {
     }
 
     @Override
+    public Leaser findLeaserName(String name) throws Exception {
+        try {
+            return persister.findLeaserName(name);
+        } catch (Exception e) {
+            throw new Exception("No client found");
+        }
+    }
+
+    @Override
+    public Leaser findLeaserEmail(String email) throws Exception {
+        try {
+            return persister.findLeaserEmail(email);
+        } catch (Exception e) {
+            throw new Exception("No client found");
+        }
+    }
+
+    @Override
+    public Leaser findLeaserCity(String city) throws Exception {
+        try {
+            return persister.findLeaserCity(city);
+        } catch (Exception e) {
+            throw new Exception("No client found");
+        }
+    }
+
+    @Override
     public ArrayList<Instrument> showAllInstr() throws Exception {
         ArrayList<Instrument> listAll = new ArrayList<Instrument>(persister.loadAllInstr());
         return listAll;

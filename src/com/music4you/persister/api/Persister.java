@@ -42,6 +42,12 @@ public interface Persister {
      */
     Instrument findInstrManuf(String manuf) throws Exception;
 
+    Leaser findLeaserName(String name) throws Exception;
+
+    Leaser findLeaserEmail(String email) throws Exception;
+
+    Leaser findLeaserCity(String city) throws Exception;
+
     /**
      * Loads all instruments objects in file
      *
