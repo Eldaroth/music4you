@@ -2,6 +2,7 @@ package com.music4you.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.UUID;
 
 /**
  * Class describes someone who is renting an instrument
@@ -14,9 +15,8 @@ public class Leaser implements Serializable {
     // Declare attributes
     private static final int LEASE_LENGTH_CLUB = 1; //minimal lease length in months for a club
     private static final int LEASE_LENGTH_PERSON = 6; //minimal lease length in months for a person
-    //private static int nextId = 1;
 
-    private int id;
+    private String id;
     private String name;
     private String firstName;
     private LocalDate dateOfBirth;
@@ -28,13 +28,12 @@ public class Leaser implements Serializable {
 
     // Constructor
     public Leaser(String inName) {
-        this.id = 0;
         this.name = inName;
         this.firstName = "";
         this.dateOfBirth = null;
-        this.address = new Address("",0,"");
+        this.address = new Address("","","");
         this.contact = new Contact("","");
-        //nextId++;
+        this.id = generateId();
     }
 
     // Constructor for a person as Leaser
@@ -54,18 +53,13 @@ public class Leaser implements Serializable {
         this.clubTag = true;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
+    public String  getId() {
         return id;
     }
 
     public void setName (String name) {
         this.name = name;
     }
-
 
     public String getName() {
         return name;
@@ -127,17 +121,22 @@ public class Leaser implements Serializable {
         this.clubTag = clubTag;
     }
 
+
+    /**
+     * Helper class to print the leasers
+     */
     public String printClub() {
-        return this.id + " / " + this.name + ", Contact person: " + this.contactPerson + "\n"
+        return "ID: " + this.id + " / " + this.name + ", Contact person: " + this.contactPerson + "\n"
                 + "Contact details: " + contact.getPhoneNumber() + " / " + contact.getEmail() + "\n"
                 + "Address: " + address.getStreet() + ", " + address.getZip() + " " + address.getCity();
     }
 
     public String printPerson() {
-        return this.id + " / " + this.name + ", " + this.firstName + " [" + this.dateOfBirth + "]" + "\n"
+        return "ID: " + this.id + " / " + this.name + ", " + this.firstName + " [" + this.dateOfBirth + "]" + "\n"
                 + "Contact details: " + contact.getPhoneNumber() + " / " + contact.getEmail() + "\n"
                 + "Address: " + address.getStreet() + ", " + address.getZip() + " " + address.getCity();
     }
+
 
     /**
      *returns short summary of personal details of client
@@ -147,5 +146,27 @@ public class Leaser implements Serializable {
         return this.id + " / " + this.name + ", " + this.firstName + " [" + this.dateOfBirth + "]" + "\n"
                 + this.contactPerson + ", " + contact.getPhoneNumber() + " / " + contact.getEmail() + "\n"
                 + address.getStreet() + ", " + address.getZip() + " " + address.getCity();
+    }
+
+    /**
+     * generates a unique ID based on UUID and the leaser's name
+     */
+    private String generateId() {
+        LocalDate today = LocalDate.now();
+        String date = today.toString();
+        byte[] dateBytes = date.getBytes();
+        UUID uuid = UUID.nameUUIDFromBytes(dateBytes);
+        String uuidString = uuid.toString();
+
+        String newUuid = "";
+        for (int i = 0; i < 5; i++) {
+            newUuid += uuidString.charAt(i);
+        }
+
+        String nameId = "";
+        for (int i = 0; i < 3; i++) {
+            nameId += this.name.charAt(i);
+        }
+        return nameId.toUpperCase() + newUuid.toUpperCase();
     }
 }

@@ -240,9 +240,9 @@ public class ClientRegistryUI {
 
         System.out.println("Is the client a Club?");
         System.out.print("[Y]/[N]: ");
-        String club = sc.nextLine();
+        String club = sc.nextLine().toLowerCase();
 
-        if (club.equals("Y")) {
+        if (club.equals("y")) {
             addClub();
         } else {
             addPerson();
@@ -259,7 +259,7 @@ public class ClientRegistryUI {
         String street = sc.nextLine();
 
         System.out.print("ZIP Code: ");
-        int zip = Integer.parseInt(sc.nextLine());
+        String zip = sc.nextLine();
 
         System.out.print("City: ");
         String city = sc.nextLine();
@@ -301,14 +301,23 @@ public class ClientRegistryUI {
         String lastName = sc.nextLine();
 
         System.out.print("Date of Birth [dd.MM.yyyy]: ");
-        String dob = sc.nextLine();
-        LocalDate dateOfBirth = LocalDate.parse(dob, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        LocalDate dateOfBirth = LocalDate.now();
+        boolean isSuccessful = false;
+        while (!isSuccessful) {
+            try {
+                String dob = sc.nextLine();
+                dateOfBirth = LocalDate.parse(dob, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+                isSuccessful = true;
+            } catch (Exception e) {
+                System.out.print("Enter valid date [dd.MM.yyyy]: ");
+            }
+        }
 
         System.out.print("Street & Nr.: ");
         String street = sc.nextLine();
 
         System.out.print("ZIP Code: ");
-        int zip = Integer.parseInt(sc.nextLine());
+        String zip = sc.nextLine();
 
         System.out.print("City: ");
         String city = sc.nextLine();
