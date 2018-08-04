@@ -6,6 +6,14 @@ import com.music4you.domain.Leaser;
 import com.music4you.persister.api.Persister;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
+/**
+ * Implementation of the Administration API
+ *
+ * @author Eldaroth
+ * @version 1.0
+ */
 
 public class AdministrationImpl implements Administration {
 
@@ -17,33 +25,43 @@ public class AdministrationImpl implements Administration {
 
     @Override
     public Instrument addInstrument(Instrument instr) throws Exception {
-        if (persister.loadAllInstr().contains(instr)) {
-            throw new Exception("Entry already existing");
-        } else {
-            persister.save(instr);
+        if (!persister.loadAllInstr().isEmpty()) {
+            for (Instrument temp : persister.loadAllInstr()) {
+                if (temp.equals(instr)) {
+                    throw new Exception("Entry already existing");
+                }
+            }
         }
+        persister.save(instr);
         return instr;
+
+//        if (persister.loadAllInstr().contains(instr)) {
+//            throw new Exception("Entry already existing");
+//        } else {
+//            persister.save(instr);
+//        }
+//        return instr;
     }
 
     @Override
     public Leaser addLeaser(Leaser leaser) throws Exception {
-        if (persister.loadAllLeaser().contains(leaser)) {
-            throw new Exception("Entry already existing");
-        } else {
-            persister.save(leaser);
+        if (!persister.loadAllLeaser().isEmpty()) {
+            for (Leaser temp : persister.loadAllLeaser()) {
+                if (temp.equals(leaser)) {
+                    throw new Exception("Entry already existing");
+                }
+            }
         }
+        persister.save(leaser);
         return leaser;
-    }
 
-//    @Override
-//    public Person addPerson(Person person) throws Exception {
-//        if (persister.loadAllPerson().contains(person)) {
+//        if (persister.loadAllLeaser().contains(leaser)) {
 //            throw new Exception("Entry already existing");
 //        } else {
-//            persister.save(person);
+//            persister.save(leaser);
 //        }
-//        return person;
-//    }
+//        return leaser;
+    }
 
     @Override
     public Instrument findInstrModel(String model) throws Exception {
@@ -102,7 +120,10 @@ public class AdministrationImpl implements Administration {
     @Override
     public ArrayList<Instrument> showAllInstr() throws Exception {
         ArrayList<Instrument> listAll = new ArrayList<Instrument>(persister.loadAllInstr());
-        return listAll;
+        if (!listAll.isEmpty()) {
+            return listAll;
+        }
+        return null;
     }
 
     @Override
@@ -111,10 +132,23 @@ public class AdministrationImpl implements Administration {
         return listAll;
     }
 
-//    @Override
-//    public ArrayList<Person> showAllPerson() throws Exception {
-//        ArrayList<Person> listAll = new ArrayList<Person>(persister.loadAllPerson());
-//        return listAll;
-//    }
+    @Override
+    public int generateId() throws Exception {
+        if (persister.loadAllInstr().isEmpty()) {
+            return 0;
+        }
+        ArrayList<Instrument> listAll = persister.loadAllInstr();
+        ArrayList<Integer> idNumbers = new ArrayList<Integer>();
+        int maxId = 0;
+
+        for (Instrument temp : listAll) {
+            idNumbers.add(temp.getInventoryId());
+        }
+
+        Collections.sort(idNumbers, Collections.reverseOrder());
+        maxId = idNumbers.get(0);
+
+        return maxId++;
+    }
 
 }

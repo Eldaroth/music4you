@@ -12,6 +12,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
+/**
+ * Creates and shows the submenu for the instruments catalog
+ *
+ * @author Eldaroth
+ * @version 1.0
+ */
+
 public class ClientRegistryUI {
     private static Administration administration;
 
@@ -62,7 +69,6 @@ public class ClientRegistryUI {
 
             } catch (Exception e) {
                 System.out.println("\n \n \nInvalid Input. Please enter a number.");
-                showMenu();
             }
         }
     }
@@ -73,7 +79,7 @@ public class ClientRegistryUI {
     public static void clientSearchFor() {
         Scanner searchFor = new Scanner(System.in);
 
-        //while (true) {
+        while (true) {
             try { // catches the exception if the user does not enter an int variable
                 MenuSkeleton subSearch = new MenuSkeleton("Search client registry", "Back to previous menu");
                 subSearch.setOptionalText("I'd like to search for:");
@@ -178,8 +184,10 @@ public class ClientRegistryUI {
                             while (itClub.hasNext()) {
                                 String club = itClub.next().printClub();
                                 System.out.println(club);
+                                System.out.println("");
                             }
                         } catch (Exception e) {
+                            System.out.println(e.getMessage());
                             System.out.println("Could not been processed");
                         }
                         System.out.println("\nPlease press enter to show persons");
@@ -207,8 +215,10 @@ public class ClientRegistryUI {
                             while (itPerson.hasNext()) {
                                 String person = itPerson.next().printPerson();
                                 System.out.println(person);
+                                System.out.println("");
                             }
                         } catch (Exception e) {
+                            System.out.println(e.getMessage());
                             System.out.println("Could not been processed");
                         }
 
@@ -227,13 +237,12 @@ public class ClientRegistryUI {
             }
             catch (Exception e) {
                 System.out.println("\n \n \nInvalid Input. Please enter a number.");
-                clientSearchFor();
             }
-        //}
+        }
     }
 
     /**
-     * Add client to the registry
+     * Initiate to adding a client to the registry with differentiator btw Club & Person
      */
     public static void addClient() {
         Scanner sc = new Scanner(System.in);
@@ -249,6 +258,9 @@ public class ClientRegistryUI {
         }
     }
 
+    /**
+     * Method for adding a Club Object to the registry
+     */
     public static void addClub() {
         Scanner sc = new Scanner(System.in);
 
@@ -286,11 +298,14 @@ public class ClientRegistryUI {
             sc1.nextLine();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("\nClub could not been added to catalog");
+            System.out.println("\n" + e.getMessage());
+            System.out.println("Club could not been added to catalog");
         }
     }
 
+    /**
+     * Method for adding a Person Object to the registry
+     */
     public static void addPerson() {
         Scanner sc = new Scanner(System.in);
 
@@ -304,7 +319,7 @@ public class ClientRegistryUI {
         LocalDate dateOfBirth = LocalDate.now();
         boolean isSuccessful = false;
         while (!isSuccessful) {
-            try {
+            try { // Catching exception if user inputs invalid date
                 String dob = sc.nextLine();
                 dateOfBirth = LocalDate.parse(dob, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
                 isSuccessful = true;
@@ -341,8 +356,8 @@ public class ClientRegistryUI {
             sc1.nextLine();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("\nClient could not been added to catalog");
+            System.out.println("\n" + e.getMessage());
+            System.out.println("Client could not been added to catalog");
         }
     }
 }

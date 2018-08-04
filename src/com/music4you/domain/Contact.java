@@ -14,6 +14,7 @@ public class Contact implements Serializable{
     private String phoneNumber;
     private String email;
 
+    // Constructor
     public Contact(String phoneNumber, String email) {
         this.phoneNumber = phoneNumber;
         this.email = email;

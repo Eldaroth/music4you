@@ -7,20 +7,27 @@ import com.music4you.persister.api.Persister;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Implementation of the Persister API
+ *
+ * @author Eldaroth
+ * @version 1.0
+ */
+
 public class PersisterImpl implements Persister{
 
     String userHomeDir = System.getProperty("user.home");
     String instrFileName = userHomeDir + File.separator + "music4youInstrSerialized.txt";
     String leaserFileName = userHomeDir + File.separator + "music4youLeaserSerialized.txt";
-    //String persFileName = userHomeDir + File.separator + "music4youPersonSerialized.txt";
+    String counterFileName = userHomeDir + File.separator + "music4youCounter.txt";
     File instrFile = new File(instrFileName);
     File leaserFile = new File(leaserFileName);
-    //File persFile = new File(persFileName);
+    File counterFile = new File(counterFileName);
 
     /*
      * @see com.music4you.business.api.Administration#save
      */
-    public void save(Instrument instr) throws IOException, ClassNotFoundException {
+    public void save(Instrument instr) throws Exception {
         ArrayList<Instrument> listInstr = new ArrayList<Instrument>();
         /*
          *Checks whether a file already exists and stores all the data in a new list
@@ -36,7 +43,7 @@ public class PersisterImpl implements Persister{
         }
     }
 
-    public void save(Leaser leaser) throws IOException, ClassNotFoundException {
+    public void save(Leaser leaser) throws Exception {
         ArrayList<Leaser> listLeaser = new ArrayList<Leaser>();
 
         if (leaserFile.exists()) {
@@ -49,20 +56,6 @@ public class PersisterImpl implements Persister{
             oos.writeObject(listLeaser);
         }
     }
-
-//    public void save(Person person) throws IOException, ClassNotFoundException {
-//        ArrayList<Person> listPerson = new ArrayList<>();
-//
-//        if (persFile.exists()) {
-//            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(persFileName))) {
-//                listPerson = (ArrayList<Person>) ois.readObject();
-//            }
-//        }
-//        listPerson.add(person);
-//        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(persFileName))) {
-//            oos.writeObject(listPerson);
-//        }
-//    }
 
     @Override
     public Instrument findInstrModel(String model) throws Exception {
@@ -125,7 +118,7 @@ public class PersisterImpl implements Persister{
     }
 
     @Override
-    public ArrayList<Instrument> loadAllInstr() throws IOException, ClassNotFoundException {
+    public ArrayList<Instrument> loadAllInstr() throws Exception {
         ArrayList<Instrument> listAll = new ArrayList<>();
 
         if (instrFile.exists()) {
@@ -143,7 +136,7 @@ public class PersisterImpl implements Persister{
     }
 
     @Override
-    public ArrayList<Leaser> loadAllLeaser() throws IOException, ClassNotFoundException {
+    public ArrayList<Leaser> loadAllLeaser() throws Exception {
         ArrayList<Leaser> listAll = new ArrayList<Leaser>();
 
         if (leaserFile.exists()) {
@@ -158,22 +151,5 @@ public class PersisterImpl implements Persister{
             return new ArrayList<Leaser>();
         }
     }
-
-//    @Override
-//    public ArrayList<Person> loadAllPerson() throws IOException, ClassNotFoundException {
-//        ArrayList<Person> listAll = new ArrayList<>();
-//
-//        if (persFile.exists()) {
-//            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(persFileName))) {
-//                listAll = (ArrayList<Person>) ois.readObject();
-//            }
-//        }
-//
-//        if (listAll != null) {
-//            return listAll;
-//        } else {
-//            return new ArrayList<Person>();
-//        }
-//    }
 
 }

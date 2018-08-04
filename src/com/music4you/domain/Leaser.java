@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 /**
- * Class describes someone who is renting an instrument
+ * Class describes a real world Person or Club who is renting an instrument
  *
  * @author Eldaroth
  * @version 1.0
@@ -30,7 +30,7 @@ public class Leaser implements Serializable {
     public Leaser(String inName) {
         this.name = inName;
         this.firstName = "";
-        this.dateOfBirth = null;
+        this.dateOfBirth = LocalDate.now();
         this.address = new Address("","","");
         this.contact = new Contact("","");
         this.id = generateId();
@@ -53,6 +53,9 @@ public class Leaser implements Serializable {
         this.clubTag = true;
     }
 
+    /**
+     * Getter and setter methods
+     */
     public String  getId() {
         return id;
     }
@@ -148,14 +151,33 @@ public class Leaser implements Serializable {
                 + address.getStreet() + ", " + address.getZip() + " " + address.getCity();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Leaser leaser = (Leaser) o;
+
+        if (!name.equals(leaser.name)) return false;
+        if (!firstName.equals(leaser.firstName)) return false;
+        if (!dateOfBirth.equals(leaser.dateOfBirth)) return false;
+        return address.getCity().equals(leaser.address.getCity());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + firstName.hashCode();
+        result = 31 * result + dateOfBirth.hashCode();
+        result = 31 * result + address.hashCode();
+        return result;
+    }
+
     /**
      * generates a unique ID based on UUID and the leaser's name
      */
     private String generateId() {
-        LocalDate today = LocalDate.now();
-        String date = today.toString();
-        byte[] dateBytes = date.getBytes();
-        UUID uuid = UUID.nameUUIDFromBytes(dateBytes);
+        UUID uuid = UUID.randomUUID();
         String uuidString = uuid.toString();
 
         String newUuid = "";

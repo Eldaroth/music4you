@@ -53,7 +53,6 @@ public class InstrumentCatalogUI {
                         break;
 
                     case 0:
-                        //MainMenu back = new MainMenu();
                         MainMenu.showMain();
                         break;
 
@@ -63,7 +62,6 @@ public class InstrumentCatalogUI {
 
             } catch (Exception e) {
                 System.out.println("\n \n \nInvalid Input. Please enter a number.");
-                showMenu();
             }
         }
     }
@@ -73,8 +71,9 @@ public class InstrumentCatalogUI {
      */
     public static void instrumentSearchFor() {
         Scanner searchFor = new Scanner(System.in);
+        //TODO Implement a check if the data file is empty; if yes, return message and stop menu
 
-        //while (true) {
+        while (true) {
             try { // catches the exception if the user does not enter an int variable
                 MenuSkeleton subSearch = new MenuSkeleton("Search Instrument catalog", "Back to previous menu");
                 subSearch.setOptionalText("I'd like to search for:");
@@ -169,6 +168,7 @@ public class InstrumentCatalogUI {
                             System.in.read();
 
                         } catch (Exception e) {
+                            System.out.println(e.getMessage());
                             System.out.println("Could not been processed");
                             break;
                         }
@@ -183,16 +183,16 @@ public class InstrumentCatalogUI {
                         break;
                 }
             }
-            catch (Exception e) {
+            catch (NullPointerException e) {
                 System.out.println("\n \n \nInvalid Input. Please enter a number.");
-                instrumentSearchFor();
             }
-        //}
+        }
     }
 
     /**
      * Adds an instrument to the catalog
      */
+    //TODO implement check whether instrument already exists in data file or not
     public static void addInstrument() {
         Scanner sc = new Scanner(System.in);
         System.out.println("");
@@ -215,11 +215,10 @@ public class InstrumentCatalogUI {
             System.out.println("\nInstrument successfully added to catalog");
             System.out.println("\nPlease confirm with enter");
             sc1.nextLine();
-
-
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("\nInstrument could not been added to catalog");
+            System.out.println("\n" + e.getMessage());
+            System.out.println("Instrument could not been added to catalog");
         }
     }
+
 }

@@ -4,10 +4,18 @@ import com.music4you.domain.*;
 
 import java.util.ArrayList;
 
+/**
+ * Interface responsible for interacting with the data files
+ *
+ * @author Eldaroth
+ * @version 1.0
+ */
+
 public interface Persister {
+    //TODO check which Exceptions are really needed and clean up your code
 
     /**
-     * Saves a new instrument
+     * Saves a new instrument or leaser
      *
      * @param instr
      * @throws Exception
@@ -16,32 +24,25 @@ public interface Persister {
 
     void save(Leaser leaser) throws Exception;
 
-    //void save(Person person) throws Exception;
 
     /**
-     * Searches for the instrument with given model
-     * @param model
+     * Searches for an instrument with given parameter
+     * @param model, type, manuf
      * @return Instrument
      * @throws Exception
      */
     Instrument findInstrModel(String model) throws Exception;
 
-    /**
-     * Searches for the instrument with given type
-     * @param type
-     * @return Instrument
-     * @throws Exception
-     */
     Instrument findInstrType(String type) throws Exception;
 
-    /**
-     * Searches for the instrument with given manufacturer
-     * @param manuf
-     * @return Instrument
-     * @throws Exception
-     */
     Instrument findInstrManuf(String manuf) throws Exception;
 
+    /**
+     * Searches for a leaser with given parameter
+     * @param name, email, city
+     * @return
+     * @throws Exception
+     */
     Leaser findLeaserName(String name) throws Exception;
 
     Leaser findLeaserEmail(String email) throws Exception;
@@ -49,25 +50,17 @@ public interface Persister {
     Leaser findLeaserCity(String city) throws Exception;
 
     /**
-     * Loads all instruments objects in file
-     *
+     * Loads all Instrument objects in data file
      * @return
      * @throws Exception
      */
     ArrayList<Instrument> loadAllInstr() throws Exception;
 
     /**
-     * Loads all club objects in file
+     * Loads all Leaser objects in data file
      * @return
      * @throws Exception
      */
     ArrayList<Leaser> loadAllLeaser() throws Exception;
-
-    /**
-     * Loads all person objects in file
-     * @return
-     * @throws Exception
-     */
-    //List<Person> loadAllPerson() throws Exception;
 
 }
