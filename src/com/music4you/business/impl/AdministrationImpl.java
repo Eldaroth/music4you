@@ -118,6 +118,16 @@ public class AdministrationImpl implements Administration {
     }
 
     @Override
+    public Instrument deleteInstrument(Instrument instr) throws Exception {
+        if (persister.loadAllInstr().isEmpty()) {
+            throw new Exception("Catalog empty or no entrie found");
+        } else {
+            persister.deleteInstrument(instr);
+        }
+        return instr;
+    }
+
+    @Override
     public ArrayList<Instrument> showAllInstr() throws Exception {
         ArrayList<Instrument> listAll = new ArrayList<Instrument>(persister.loadAllInstr());
         if (!listAll.isEmpty()) {
@@ -133,22 +143,17 @@ public class AdministrationImpl implements Administration {
     }
 
     @Override
-    public int generateId() throws Exception {
-        if (persister.loadAllInstr().isEmpty()) {
-            return 0;
+    public ArrayList<Integer> allInventoryId() throws Exception {
+        ArrayList<Integer> allId = new ArrayList<Integer>();
+
+        if (allId.isEmpty()) {
+            for (Instrument temp : persister.loadAllInstr()) {
+                allId.add(temp.getInventoryId());
+            }
+            Collections.sort(allId, Collections.reverseOrder());
+            return allId;
         }
-        ArrayList<Instrument> listAll = persister.loadAllInstr();
-        ArrayList<Integer> idNumbers = new ArrayList<Integer>();
-        int maxId = 0;
-
-        for (Instrument temp : listAll) {
-            idNumbers.add(temp.getInventoryId());
-        }
-
-        Collections.sort(idNumbers, Collections.reverseOrder());
-        maxId = idNumbers.get(0);
-
-        return maxId++;
+        return null;
     }
 
 }

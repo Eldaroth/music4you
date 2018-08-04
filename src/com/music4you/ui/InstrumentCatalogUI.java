@@ -91,7 +91,7 @@ public class InstrumentCatalogUI {
                         try {
                             Scanner scModel = new Scanner(System.in);
                             System.out.print("Enter model: ");
-                            String model = scModel.nextLine();
+                            String model = scModel.nextLine().toLowerCase();
 
                             System.out.println("\n \n");
                             Instrument temp = administration.findInstrModel(model);
@@ -114,7 +114,7 @@ public class InstrumentCatalogUI {
                         try {
                             Scanner scType = new Scanner(System.in);
                             System.out.print("Enter type: ");
-                            String type = scType.nextLine();
+                            String type = scType.nextLine().toLowerCase();
 
                             System.out.println("\n \n");
                             Instrument temp = administration.findInstrType(type);
@@ -137,7 +137,7 @@ public class InstrumentCatalogUI {
                         try {
                             Scanner scType = new Scanner(System.in);
                             System.out.print("Enter manufacturer: ");
-                            String manuf = scType.nextLine();
+                            String manuf = scType.nextLine().toLowerCase();
 
                             System.out.println("\n \n");
                             Instrument temp = administration.findInstrManuf(manuf);
@@ -167,6 +167,8 @@ public class InstrumentCatalogUI {
                             System.out.println("\n \nPlease press enter to continue");
                             System.in.read();
 
+                        } catch (NullPointerException n) {
+                            System.out.println("No entries");
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                             System.out.println("Could not been processed");
@@ -192,7 +194,6 @@ public class InstrumentCatalogUI {
     /**
      * Adds an instrument to the catalog
      */
-    //TODO implement check whether instrument already exists in data file or not
     public static void addInstrument() {
         Scanner sc = new Scanner(System.in);
         System.out.println("");
@@ -209,6 +210,12 @@ public class InstrumentCatalogUI {
         Instrument instr = new Instrument(model, type, manufacturer);
 
         try {
+            // Searches the highest InventoryID in the data file and increments it by one
+            if (!administration.allInventoryId().isEmpty()) {
+                int newId = administration.allInventoryId().get(0) + 1;
+                instr.setInventoryId(newId);
+            }
+
             Scanner sc1 = new Scanner(System.in);
             administration.addInstrument(instr);
 

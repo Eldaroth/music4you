@@ -31,7 +31,7 @@ public class MainMenu {
     public static void showMain() {
         Scanner sc = new Scanner(System.in);
 
-        //while (true) {
+        while (true) {
             /*System.out.println("\n \n \n");
             System.out.println("Main Menu");
             System.out.println("******************************");
@@ -79,10 +79,9 @@ public class MainMenu {
             }
             catch (Exception e) {
                 System.out.println("\n \n \nInvalid Input. Please enter a number.");
-                showMain();
             }
 
-        //}
+        }
     }
 
     /**

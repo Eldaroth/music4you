@@ -50,6 +50,8 @@ public interface Administration {
 
     Leaser findLeaserCity(String city) throws Exception;
 
+    Instrument deleteInstrument(Instrument instr) throws Exception;
+
     /**
      * Shows all the entries in the instrument data file
      * @throws Exception
@@ -58,11 +60,14 @@ public interface Administration {
 
     /**
      * Shows all the entries in the leaser data file
-     * @return
      * @throws Exception
      */
     ArrayList<Leaser> showAllLeaser() throws Exception;
 
-    int generateId() throws Exception;
+    /**
+     * Generates a list with all already used InventoryIDs
+     * @throws Exception
+     */
+    ArrayList<Integer> allInventoryId() throws Exception;
 
 }

@@ -6,6 +6,7 @@ import com.music4you.persister.api.Persister;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Implementation of the Persister API
@@ -19,10 +20,8 @@ public class PersisterImpl implements Persister{
     String userHomeDir = System.getProperty("user.home");
     String instrFileName = userHomeDir + File.separator + "music4youInstrSerialized.txt";
     String leaserFileName = userHomeDir + File.separator + "music4youLeaserSerialized.txt";
-    String counterFileName = userHomeDir + File.separator + "music4youCounter.txt";
     File instrFile = new File(instrFileName);
     File leaserFile = new File(leaserFileName);
-    File counterFile = new File(counterFileName);
 
     /*
      * @see com.music4you.business.api.Administration#save
@@ -60,7 +59,7 @@ public class PersisterImpl implements Persister{
     @Override
     public Instrument findInstrModel(String model) throws Exception {
         for (Instrument instr : loadAllInstr()) {
-            if (instr.getModel().contains(model)) {
+            if (instr.getModel().toLowerCase().contains(model)) {
                 return instr;
             }
         }
@@ -70,7 +69,7 @@ public class PersisterImpl implements Persister{
     @Override
     public Instrument findInstrType(String type) throws Exception {
         for (Instrument instr : loadAllInstr()) {
-            if (instr.getType().contains(type)) {
+            if (instr.getType().toLowerCase().contains(type)) {
                 return instr;
             }
         }
@@ -80,7 +79,7 @@ public class PersisterImpl implements Persister{
     @Override
     public Instrument findInstrManuf(String manuf) throws Exception {
         for (Instrument instr : loadAllInstr()) {
-            if (instr.getManufacturer().contains(manuf)) {
+            if (instr.getManufacturer().toLowerCase().contains(manuf)) {
                 return instr;
             }
         }
@@ -90,7 +89,7 @@ public class PersisterImpl implements Persister{
     @Override
     public Leaser findLeaserName(String name) throws Exception {
         for (Leaser temp : loadAllLeaser()) {
-            if (temp.getName().contains(name)) {
+            if (temp.getName().toLowerCase().contains(name)) {
                 return temp;
             }
         }
@@ -100,7 +99,7 @@ public class PersisterImpl implements Persister{
     @Override
     public Leaser findLeaserEmail(String email) throws Exception {
         for (Leaser temp : loadAllLeaser()) {
-            if (temp.getContact().getEmail().contains(email)) {
+            if (temp.getContact().getEmail().toLowerCase().contains(email)) {
                 return temp;
             }
         }
@@ -110,10 +109,16 @@ public class PersisterImpl implements Persister{
     @Override
     public Leaser findLeaserCity(String city) throws Exception {
         for (Leaser temp : loadAllLeaser()) {
-            if (temp.getAddress().getCity().contains(city)) {
+            if (temp.getAddress().getCity().toLowerCase().contains(city)) {
                 return temp;
             }
         }
+        return null;
+    }
+
+    @Override
+    public Instrument deleteInstrument(Instrument instr) throws Exception {
+
         return null;
     }
 
@@ -150,6 +155,20 @@ public class PersisterImpl implements Persister{
         } else {
             return new ArrayList<Leaser>();
         }
+    }
+
+    @Override
+    public ArrayList<Integer> allInventoryId() throws Exception {
+        ArrayList<Integer> allId = new ArrayList<Integer>();
+
+        if (allId.isEmpty()) {
+            for (Instrument temp : loadAllInstr()) {
+                allId.add(temp.getInventoryId());
+            }
+            Collections.sort(allId, Collections.reverseOrder());
+            return allId;
+        }
+        return new ArrayList<Integer>();
     }
 
 }

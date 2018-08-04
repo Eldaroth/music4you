@@ -49,6 +49,8 @@ public interface Persister {
 
     Leaser findLeaserCity(String city) throws Exception;
 
+    Instrument deleteInstrument(Instrument instr) throws Exception;
+
     /**
      * Loads all Instrument objects in data file
      * @return
@@ -63,4 +65,5 @@ public interface Persister {
      */
     ArrayList<Leaser> loadAllLeaser() throws Exception;
 
+    ArrayList<Integer> allInventoryId() throws Exception;
 }

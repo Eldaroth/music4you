@@ -97,7 +97,7 @@ public class ClientRegistryUI {
                         try {
                             Scanner scModel = new Scanner(System.in);
                             System.out.print("Enter name: ");
-                            String name = scModel.nextLine();
+                            String name = scModel.nextLine().toLowerCase();
 
                             System.out.println("\n \n");
                             Leaser temp = administration.findLeaserName(name);
@@ -120,7 +120,7 @@ public class ClientRegistryUI {
                         try {
                             Scanner scType = new Scanner(System.in);
                             System.out.print("Enter e-mail: ");
-                            String email = scType.nextLine();
+                            String email = scType.nextLine().toLowerCase();
 
                             System.out.println("\n \n");
                             Leaser temp = administration.findLeaserEmail(email);
@@ -143,7 +143,7 @@ public class ClientRegistryUI {
                         try {
                             Scanner scType = new Scanner(System.in);
                             System.out.print("Enter city: ");
-                            String city = scType.nextLine();
+                            String city = scType.nextLine().toLowerCase();
 
                             System.out.println("\n \n");
                             Leaser temp = administration.findLeaserCity(city);
