@@ -5,7 +5,6 @@ import com.music4you.domain.Address;
 import com.music4you.domain.Contact;
 import com.music4you.domain.Leaser;
 
-import java.awt.image.ImagingOpException;
 import java.io.IOException;
 import java.time.LocalDate;
 
@@ -121,6 +120,7 @@ public class ClientRegistryUI {
 //                            System.out.println("\n \nPlease press enter to continue");
 //                            System.in.read();
                         } catch (Exception e) {
+                            e.printStackTrace();
                             System.out.println("Input not valid");
                             break;
                         }
@@ -280,15 +280,64 @@ public class ClientRegistryUI {
                 switch (chosenOption) {
 
                     case 1:
-                        System.out.println("In development");
+                        Scanner sc1 = new Scanner(System.in);
+
+                        while (true) {
+                            System.out.println("\nPlease enter client ID: ");
+                            String id = sc1.nextLine().toLowerCase();
+                            Leaser leaser = new Leaser("TEST");
+                            int counter = 0;
+
+                            for (Leaser temp : input) {
+                                if (temp.getId().toLowerCase().equals(id)) {
+                                    try {
+                                        leaser = temp;
+                                        administration.delete(temp);
+                                        counter++;
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                            if (counter == 0) {
+                                System.out.println("No such ID found, try again");
+                                break;
+                            }
+
+                            System.out.println("What would you like to edit:");
+                            boolean isClub = false;
+                            if (leaser.isClubTag()) {
+                                System.out.println("\n[1] Name" + "\n[2] Contact person" + "\n[3] E-Mail"
+                                        + "\n[4] Phone number" + "\n[5] Address");
+                                isClub = true;
+                            } else {
+                                System.out.println("\n[1] First name" + "\n[2] Last name" + "\n[3] E-Mail"
+                                        + "\n[4] Phone number" + "\n[5] Address");
+                            }
+                            int option = Integer.parseInt(sc1.nextLine());
+                            if (option > 5) {
+                                System.out.println("No option, try again");
+                                break;
+                            }
+
+                            leaser = editLeaser(leaser, isClub, option);
+
+                            try {
+                                administration.addLeaser(leaser);
+                                break;
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                System.out.println("Error while editing client");
+                            }
+                        }
                         break;
 
                     case 2:
-                        Scanner sc = new Scanner(System.in);
+                        Scanner sc2 = new Scanner(System.in);
 
                         while (true) {
                             System.out.println("\nPlease enter client ID to delete: ");
-                            String id = sc.nextLine().toLowerCase();
+                            String id = sc2.nextLine().toLowerCase();
                             int counter = 0;
 
                             for (Leaser temp : input) {
@@ -307,6 +356,7 @@ public class ClientRegistryUI {
                             }
                             break;
                         }
+                        break;
 
                     case 0:
                         clientSearchFor();
@@ -440,5 +490,51 @@ public class ClientRegistryUI {
             System.out.println("\n" + e.getMessage());
             System.out.println("Client could not been added to catalog");
         }
+    }
+
+    public static Leaser editLeaser(Leaser leaser, boolean isClub, int option) {
+        Scanner sc = new Scanner(System.in);
+
+        if (option == 1 && isClub) {
+            System.out.print("Please enter new name: ");
+            String newName = sc.nextLine();
+            leaser.setName(newName);
+        } else if (option == 1 && !isClub) {
+            System.out.print("Please enter new first name: ");
+            String newFirstName = sc.nextLine();
+            leaser.setFirstName(newFirstName);
+        } else if (option == 2 && isClub) {
+            System.out.print("Please enter new contact person: ");
+            String newContactPerson = sc.nextLine();
+            leaser.setContactPerson(newContactPerson);
+        } else if (option == 2 && !isClub) {
+            System.out.print("Please enter new last name: ");
+            String newLastName = sc.nextLine();
+            leaser.setName(newLastName);
+        } else if (option == 3) {
+            System.out.print("Please enter new email: ");
+            String newEmail = sc.nextLine();
+            Contact newContact = leaser.getContact();
+            newContact.setEmail(newEmail);
+            leaser.setContact(newContact);
+        } else if (option == 4) {
+            System.out.print("Please enter new phone number: ");
+            String newPhone = sc.nextLine();
+            Contact newContact = leaser.getContact();
+            newContact.setPhoneNumber(newPhone);
+            leaser.setContact(newContact);
+        } else if (option == 5) {
+            System.out.print("Please enter new street: ");
+            String newStreet = sc.nextLine();
+            System.out.print("Please enter new ZIP: ");
+            String newZip = sc.nextLine();
+            System.out.print("Please enter new city: ");
+            String newCity = sc.nextLine();
+            Address newAddress = new Address(newStreet, newZip, newCity);
+            leaser.setAddress(newAddress);
+        } else {
+            System.out.println("Error");
+        }
+        return leaser;
     }
 }
