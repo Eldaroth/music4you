@@ -291,11 +291,14 @@ public class InstrumentCatalogUI {
         Instrument instr = new Instrument(model, type, manufacturer);
 
         try {
-            // Searches the highest InventoryID in the data file and increments it by one
-            if (!administration.allInventoryId().isEmpty()) {
-                int newId = administration.allInventoryId().get(0) + 1;
-                instr.setInventoryId(newId);
+            // Goes through all already existing inventory ID and searches a free one or sets the highest
+            int newId = 0;
+            for (int i : administration.allInventoryId()) {
+                if (newId == i) {
+                    newId++;
+                }
             }
+            instr.setInventoryId(newId);
 
             Scanner sc1 = new Scanner(System.in);
             administration.addInstrument(instr);

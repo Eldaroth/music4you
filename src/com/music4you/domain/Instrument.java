@@ -81,6 +81,7 @@ public class Instrument implements Serializable {
                 + " / Leased: " + lease;
     }
 
+    // Necessary to override in order to determine whether instrument already exists
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -100,4 +101,5 @@ public class Instrument implements Serializable {
         result = 31 * result + manufacturer.hashCode();
         return result;
     }
+
 }

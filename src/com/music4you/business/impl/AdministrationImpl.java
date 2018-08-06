@@ -7,6 +7,7 @@ import com.music4you.persister.api.Persister;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Implementation of the Administration API
@@ -159,6 +160,12 @@ public class AdministrationImpl implements Administration {
     public ArrayList<Instrument> showAllInstr() throws Exception {
         ArrayList<Instrument> listAll = new ArrayList<Instrument>(persister.loadAllInstr());
         if (!listAll.isEmpty()) {
+            Collections.sort(listAll, new Comparator<Instrument>() {
+                @Override
+                public int compare(Instrument o1, Instrument o2) {
+                    return o1.getInventoryId() - o2.getInventoryId();
+                }
+            });
             return listAll;
         }
         return null;
@@ -167,7 +174,10 @@ public class AdministrationImpl implements Administration {
     @Override
     public ArrayList<Leaser> showAllLeaser() throws Exception {
         ArrayList<Leaser> listAll = new ArrayList<Leaser>(persister.loadAllLeaser());
-        return listAll;
+        if (!listAll.isEmpty()) {
+            return listAll;
+        }
+        return null;
     }
 
     @Override
@@ -178,7 +188,8 @@ public class AdministrationImpl implements Administration {
             for (Instrument temp : persister.loadAllInstr()) {
                 allId.add(temp.getInventoryId());
             }
-            Collections.sort(allId, Collections.reverseOrder());
+            //Collections.sort(allId, Collections.reverseOrder());
+            Collections.sort(allId);
             return allId;
         }
         return null;

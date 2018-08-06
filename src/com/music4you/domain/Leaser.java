@@ -151,6 +151,7 @@ public class Leaser implements Serializable {
                 + address.getStreet() + ", " + address.getZip() + " " + address.getCity();
     }
 
+    // Necessary to override in order to determine whether leaser already exists
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
