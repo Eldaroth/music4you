@@ -64,7 +64,7 @@ public class AdministrationImpl implements Administration {
     }
 
     @Override
-    public Instrument findInstrModel(String model) throws Exception {
+    public ArrayList<Instrument> findInstrModel(String model) throws Exception {
         try {
             return persister.findInstrModel(model);
         } catch (Exception e) {
@@ -73,7 +73,7 @@ public class AdministrationImpl implements Administration {
     }
 
     @Override
-    public Instrument findInstrType(String type) throws Exception {
+    public ArrayList<Instrument> findInstrType(String type) throws Exception {
         try {
             return persister.findInstrType(type);
         } catch (Exception e) {
@@ -82,7 +82,7 @@ public class AdministrationImpl implements Administration {
     }
 
     @Override
-    public Instrument findInstrManuf(String manuf) throws Exception {
+    public ArrayList<Instrument> findInstrManuf(String manuf) throws Exception {
         try {
             return persister.findInstrManuf(manuf);
         } catch (Exception e) {
@@ -91,7 +91,16 @@ public class AdministrationImpl implements Administration {
     }
 
     @Override
-    public Leaser findLeaserName(String name) throws Exception {
+    public Instrument findInstrId(int id) throws Exception {
+        try {
+            return persister.findInstrId(id);
+        } catch (Exception e) {
+            throw new Exception("No instrument found");
+        }
+    }
+
+    @Override
+    public ArrayList<Leaser> findLeaserName(String name) throws Exception {
         try {
             return persister.findLeaserName(name);
         } catch (Exception e) {
@@ -100,7 +109,7 @@ public class AdministrationImpl implements Administration {
     }
 
     @Override
-    public Leaser findLeaserEmail(String email) throws Exception {
+    public ArrayList<Leaser> findLeaserEmail(String email) throws Exception {
         try {
             return persister.findLeaserEmail(email);
         } catch (Exception e) {
@@ -109,7 +118,7 @@ public class AdministrationImpl implements Administration {
     }
 
     @Override
-    public Leaser findLeaserCity(String city) throws Exception {
+    public ArrayList<Leaser> findLeaserCity(String city) throws Exception {
         try {
             return persister.findLeaserCity(city);
         } catch (Exception e) {
@@ -118,13 +127,32 @@ public class AdministrationImpl implements Administration {
     }
 
     @Override
-    public Instrument deleteInstrument(Instrument instr) throws Exception {
-        if (persister.loadAllInstr().isEmpty()) {
-            throw new Exception("Catalog empty or no entrie found");
-        } else {
-            persister.deleteInstrument(instr);
+    public Leaser findLeaserId(String id) throws Exception {
+        try {
+            return persister.findLeaserId(id);
+        } catch (Exception e) {
+            throw new Exception("No client found");
         }
-        return instr;
+    }
+
+    @Override
+    public Leaser delete(Leaser leaser) throws Exception {
+        try {
+            persister.delete(leaser);
+        } catch (Exception e) {
+            throw new Exception("No client deleted");
+        }
+        return leaser;
+    }
+
+    @Override
+    public Instrument delete(Instrument instrument) throws Exception {
+        try {
+            persister.delete(instrument);
+        } catch (Exception e) {
+            throw new Exception("No instrument deleted");
+        }
+        return instrument;
     }
 
     @Override

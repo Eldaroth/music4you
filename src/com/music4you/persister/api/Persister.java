@@ -24,6 +24,14 @@ public interface Persister {
 
     void save(Leaser leaser) throws Exception;
 
+    /**
+     * Deletes the client or instrument from the data file
+     * @param leaser, instrument
+     * @throws Exception
+     */
+    void delete(Leaser leaser) throws Exception;
+
+    void delete(Instrument instrument) throws Exception;
 
     /**
      * Searches for an instrument with given parameter
@@ -31,11 +39,13 @@ public interface Persister {
      * @return Instrument
      * @throws Exception
      */
-    Instrument findInstrModel(String model) throws Exception;
+    ArrayList<Instrument> findInstrModel(String model) throws Exception;
 
-    Instrument findInstrType(String type) throws Exception;
+    ArrayList<Instrument> findInstrType(String type) throws Exception;
 
-    Instrument findInstrManuf(String manuf) throws Exception;
+    ArrayList<Instrument> findInstrManuf(String manuf) throws Exception;
+
+    Instrument findInstrId(int id) throws Exception;
 
     /**
      * Searches for a leaser with given parameter
@@ -43,13 +53,13 @@ public interface Persister {
      * @return
      * @throws Exception
      */
-    Leaser findLeaserName(String name) throws Exception;
+    ArrayList<Leaser> findLeaserName(String name) throws Exception;
 
-    Leaser findLeaserEmail(String email) throws Exception;
+    ArrayList<Leaser> findLeaserEmail(String email) throws Exception;
 
-    Leaser findLeaserCity(String city) throws Exception;
+    ArrayList<Leaser> findLeaserCity(String city) throws Exception;
 
-    Instrument deleteInstrument(Instrument instr) throws Exception;
+    Leaser findLeaserId(String id) throws Exception;
 
     /**
      * Loads all Instrument objects in data file

@@ -3,6 +3,7 @@ package com.music4you.ui;
 import com.music4you.business.api.Administration;
 import com.music4you.domain.Instrument;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -40,7 +41,7 @@ public class InstrumentCatalogUI {
                 subMain.addMenuItem("Search in catalog");
                 subMain.printMenu();
 
-                int chosenOption = showMenu.nextInt();
+                int chosenOption = Integer.parseInt(showMenu.nextLine());
 
                 switch (chosenOption) {
 
@@ -60,7 +61,7 @@ public class InstrumentCatalogUI {
                         System.out.println("\n \n \nPlease chose a valid option");
                 }
 
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 System.out.println("\n \n \nInvalid Input. Please enter a number.");
             }
         }
@@ -75,7 +76,8 @@ public class InstrumentCatalogUI {
 
         while (true) {
             try { // catches the exception if the user does not enter an int variable
-                MenuSkeleton subSearch = new MenuSkeleton("Search Instrument catalog", "Back to previous menu");
+                MenuSkeleton subSearch = new MenuSkeleton("Search Instrument catalog",
+                        "Back to previous menu");
                 subSearch.setOptionalText("I'd like to search for:");
                 subSearch.addMenuItem("Model");
                 subSearch.addMenuItem("Type of instrument");
@@ -83,7 +85,7 @@ public class InstrumentCatalogUI {
                 subSearch.addMenuItem("Show all instruments");
                 subSearch.printMenu();
 
-                int chosenOption = searchFor.nextInt();
+                int chosenOption = Integer.parseInt(searchFor.nextLine());
 
                 switch (chosenOption) {
 
@@ -94,16 +96,20 @@ public class InstrumentCatalogUI {
                             String model = scModel.nextLine().toLowerCase();
 
                             System.out.println("\n \n");
-                            Instrument temp = administration.findInstrModel(model);
+                            ArrayList<Instrument> temp = administration.findInstrModel(model);
 
-                            if (temp == null) {
+                            if (temp.isEmpty()) {
                                 System.out.println("No instrument found");
                             } else {
-                                System.out.println(temp);
+                                for (Instrument instr : temp) {
+                                    System.out.println(instr);
+                                }
                             }
 
-                            System.out.println("\n \nPlease press enter to continue");
-                            System.in.read();
+                            options(temp);
+
+                            //System.out.println("\n \nPlease press enter to continue");
+                            //System.in.read();
                         } catch (Exception e) {
                             System.out.println("Input not valid");
                             break;
@@ -117,16 +123,20 @@ public class InstrumentCatalogUI {
                             String type = scType.nextLine().toLowerCase();
 
                             System.out.println("\n \n");
-                            Instrument temp = administration.findInstrType(type);
+                            ArrayList<Instrument> temp = administration.findInstrType(type);
 
-                            if (temp == null) {
+                            if (temp.isEmpty()) {
                                 System.out.println("No instrument found");
                             } else {
-                                System.out.println(temp);
+                                for (Instrument instr : temp) {
+                                    System.out.println(instr);
+                                }
                             }
 
-                            System.out.println("\n \nPlease press enter to continue");
-                            System.in.read();
+                            options(temp);
+
+                            //System.out.println("\n \nPlease press enter to continue");
+                            //System.in.read();
                         } catch (Exception e) {
                             System.out.println("Input not valid");
                             break;
@@ -140,16 +150,20 @@ public class InstrumentCatalogUI {
                             String manuf = scType.nextLine().toLowerCase();
 
                             System.out.println("\n \n");
-                            Instrument temp = administration.findInstrManuf(manuf);
+                            ArrayList<Instrument> temp = administration.findInstrManuf(manuf);
 
-                            if (temp == null) {
+                            if (temp.isEmpty()) {
                                 System.out.println("No instrument found");
                             } else {
-                                System.out.println(temp);
+                                for (Instrument instr : temp) {
+                                    System.out.println(instr);
+                                }
                             }
 
-                            System.out.println("\n \nPlease press enter to continue");
-                            System.in.read();
+                            options(temp);
+
+                            //System.out.println("\n \nPlease press enter to continue");
+                            //System.in.read();
                         } catch (Exception e) {
                             System.out.println("Input not valid");
                             break;
@@ -185,11 +199,78 @@ public class InstrumentCatalogUI {
                         break;
                 }
             }
-            catch (NullPointerException e) {
+            catch (NumberFormatException e) {
                 System.out.println("\n \n \nInvalid Input. Please enter a number.");
             }
         }
     }
+
+    public static void options(ArrayList<Instrument> input) {
+        Scanner optionsMenu = new Scanner(System.in);
+
+        while (true) {
+            try { // catches the exception if the user does not enter an int variable
+                MenuSkeleton subMain = new MenuSkeleton("What would you like to do?",
+                        "Back to previous menu");
+                subMain.addMenuItem("Edit instrument");
+                subMain.addMenuItem("Delete instrument");
+                subMain.printMenu();
+
+                int chosenOption = Integer.parseInt(optionsMenu.nextLine());
+
+                switch (chosenOption) {
+
+                    case 1:
+                        System.out.println("In development");
+                        break;
+
+                    case 2:
+                        Scanner sc = new Scanner(System.in);
+
+                        while (true) {
+                            System.out.println("\nPlease enter inventory ID to delete: ");
+                            int id = Integer.parseInt(sc.nextLine());
+                            int counter = 0;
+
+                            for (Instrument temp : input) {
+                                if (temp.getInventoryId() == id) {
+                                    try {
+                                        System.out.println(temp.getInventoryId() + " deleted");
+                                        administration.delete(temp);
+                                        counter++;
+
+                                        input.remove(temp);
+                                        for (Instrument instr : input) {
+                                            System.out.println("\nRemaining: " +
+                                                    "\n" + instr);
+                                        }
+                                        System.out.println("\n \nPlease press enter to continue");
+                                        System.in.read();
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                            if (counter == 0) {
+                                System.out.println("No such ID found, try again");
+                            }
+                            break;
+                        }
+
+                    case 0:
+                        instrumentSearchFor();
+                        break;
+
+                    default:
+                        System.out.println("\n \n \nPlease chose a valid option");
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("\n \n \nInvalid Input. Please enter a number.");
+            }
+        }
+    }
+
 
     /**
      * Adds an instrument to the catalog

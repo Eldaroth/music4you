@@ -5,6 +5,8 @@ import com.music4you.domain.Address;
 import com.music4you.domain.Contact;
 import com.music4you.domain.Leaser;
 
+import java.awt.image.ImagingOpException;
+import java.io.IOException;
 import java.time.LocalDate;
 
 import java.time.format.DateTimeFormatter;
@@ -46,7 +48,7 @@ public class ClientRegistryUI {
                 subMain.addMenuItem("Search in registry");
                 subMain.printMenu();
 
-                int chosenOption = showMenu.nextInt();
+                int chosenOption = Integer.parseInt(showMenu.nextLine());
 
                 switch (chosenOption) {
 
@@ -67,7 +69,7 @@ public class ClientRegistryUI {
                         System.out.println("\n \n \nPlease chose a valid option");
                 }
 
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 System.out.println("\n \n \nInvalid Input. Please enter a number.");
             }
         }
@@ -89,7 +91,7 @@ public class ClientRegistryUI {
                 subSearch.addMenuItem("Show all clients");
                 subSearch.printMenu();
 
-                int chosenOption = searchFor.nextInt();
+                int chosenOption = Integer.parseInt(searchFor.nextLine());
 
                 switch (chosenOption) {
 
@@ -100,16 +102,24 @@ public class ClientRegistryUI {
                             String name = scModel.nextLine().toLowerCase();
 
                             System.out.println("\n \n");
-                            Leaser temp = administration.findLeaserName(name);
+                            ArrayList<Leaser> temp = administration.findLeaserName(name);
 
-                            if (temp == null) {
+                            if (temp.isEmpty()) {
                                 System.out.println("No client found");
                             } else {
-                                System.out.println(temp.printPerson());
+                                for (Leaser leaser : temp) {
+                                    if (leaser.isClubTag()) {
+                                        System.out.println(leaser.printClub() + "\n");
+                                    } else {
+                                        System.out.println(leaser.printPerson() + "\n");
+                                    }
+                                }
                             }
 
-                            System.out.println("\n \nPlease press enter to continue");
-                            System.in.read();
+                            options(temp);
+
+//                            System.out.println("\n \nPlease press enter to continue");
+//                            System.in.read();
                         } catch (Exception e) {
                             System.out.println("Input not valid");
                             break;
@@ -123,12 +133,18 @@ public class ClientRegistryUI {
                             String email = scType.nextLine().toLowerCase();
 
                             System.out.println("\n \n");
-                            Leaser temp = administration.findLeaserEmail(email);
+                            ArrayList<Leaser> temp = administration.findLeaserEmail(email);
 
-                            if (temp == null) {
+                            if (temp.isEmpty()) {
                                 System.out.println("No client found");
                             } else {
-                                System.out.println(temp.printPerson());
+                                for (Leaser leaser : temp) {
+                                    if (leaser.isClubTag()) {
+                                        System.out.println(leaser.printClub() + "\n");
+                                    } else {
+                                        System.out.println(leaser.printPerson() + "\n");
+                                    }
+                                }
                             }
 
                             System.out.println("\n \nPlease press enter to continue");
@@ -146,12 +162,18 @@ public class ClientRegistryUI {
                             String city = scType.nextLine().toLowerCase();
 
                             System.out.println("\n \n");
-                            Leaser temp = administration.findLeaserCity(city);
+                            ArrayList<Leaser> temp = administration.findLeaserCity(city);
 
-                            if (temp == null) {
+                            if (temp.isEmpty()) {
                                 System.out.println("No client found");
                             } else {
-                                System.out.println(temp.printPerson());
+                                for (Leaser leaser : temp) {
+                                    if (leaser.isClubTag()) {
+                                        System.out.println(leaser.printClub() + "\n");
+                                    } else {
+                                        System.out.println(leaser.printPerson() + "\n");
+                                    }
+                                }
                             }
 
                             System.out.println("\n \nPlease press enter to continue");
@@ -234,8 +256,67 @@ public class ClientRegistryUI {
                         System.out.println("\n \n \nPlease chose a valid option");
                         break;
                 }
+            } catch (NumberFormatException e) {
+                System.out.println("\n \n \nInvalid Input. Please enter a number.");
+            } catch (IOException e) {
+                System.out.println("\n \n \nInvalid Input");
             }
-            catch (Exception e) {
+        }
+    }
+
+    public static void options(ArrayList<Leaser> input) {
+        Scanner optionsMenu = new Scanner(System.in);
+
+        while (true) {
+            try { // catches the exception if the user does not enter an int variable
+                MenuSkeleton subMain = new MenuSkeleton("What would you like to do?",
+                        "Back to previous menu");
+                subMain.addMenuItem("Edit client");
+                subMain.addMenuItem("Delete client");
+                subMain.printMenu();
+
+                int chosenOption = Integer.parseInt(optionsMenu.nextLine());
+
+                switch (chosenOption) {
+
+                    case 1:
+                        System.out.println("In development");
+                        break;
+
+                    case 2:
+                        Scanner sc = new Scanner(System.in);
+
+                        while (true) {
+                            System.out.println("\nPlease enter client ID to delete: ");
+                            String id = sc.nextLine().toLowerCase();
+                            int counter = 0;
+
+                            for (Leaser temp : input) {
+                                if (temp.getId().toLowerCase().equals(id)) {
+                                    try {
+                                        System.out.println(temp.getId() + " deleted");
+                                        administration.delete(temp);
+                                        counter++;
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                            if (counter == 0) {
+                                System.out.println("No such ID found, try again");
+                            }
+                            break;
+                        }
+
+                    case 0:
+                        clientSearchFor();
+                        break;
+
+                    default:
+                        System.out.println("\n \n \nPlease chose a valid option");
+                }
+
+            } catch (NumberFormatException e) {
                 System.out.println("\n \n \nInvalid Input. Please enter a number.");
             }
         }

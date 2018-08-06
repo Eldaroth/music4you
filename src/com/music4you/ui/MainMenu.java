@@ -51,7 +51,7 @@ public class MainMenu {
                 main.addMenuItem("Renting");
                 main.printMenu();
 
-                int chosenOption = sc.nextInt();
+                int chosenOption = Integer.parseInt(sc.nextLine());
 
                 switch (chosenOption) {
 
@@ -77,7 +77,7 @@ public class MainMenu {
                         System.out.println("\n \n \nPlease chose a valid option");
                 }
             }
-            catch (Exception e) {
+            catch (NumberFormatException e) {
                 System.out.println("\n \n \nInvalid Input. Please enter a number.");
             }
 

@@ -5,6 +5,7 @@ import com.music4you.domain.Leaser;
 import com.music4you.persister.api.Persister;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -26,6 +27,7 @@ public class PersisterImpl implements Persister{
     /*
      * @see com.music4you.business.api.Administration#save
      */
+    @Override
     public void save(Instrument instr) throws Exception {
         ArrayList<Instrument> listInstr = new ArrayList<Instrument>();
         /*
@@ -42,6 +44,7 @@ public class PersisterImpl implements Persister{
         }
     }
 
+    @Override
     public void save(Leaser leaser) throws Exception {
         ArrayList<Leaser> listLeaser = new ArrayList<Leaser>();
 
@@ -57,29 +60,79 @@ public class PersisterImpl implements Persister{
     }
 
     @Override
-    public Instrument findInstrModel(String model) throws Exception {
+    public void delete(Leaser leaser) throws Exception {
+        ArrayList<Leaser> listLeaser = loadAllLeaser();
+        if (listLeaser.contains(leaser)) {
+            listLeaser.remove(leaser);
+        } else {
+            throw new Exception("Could not been deleted");
+        }
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(leaserFileName))) {
+            oos.writeObject(listLeaser);
+        }
+    }
+
+    @Override
+    public void delete(Instrument instrument) throws Exception {
+        ArrayList<Instrument> listInstr = loadAllInstr();
+        if (listInstr.contains(instrument)) {
+            listInstr.remove(instrument);
+        } else {
+            throw new Exception("Could not been deleted");
+        }
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(instrFileName))) {
+            oos.writeObject(listInstr);
+        }
+    }
+
+    @Override
+    public ArrayList<Instrument> findInstrModel(String model) throws Exception {
+        ArrayList<Instrument> allFound = new ArrayList<Instrument>();
         for (Instrument instr : loadAllInstr()) {
             if (instr.getModel().toLowerCase().contains(model)) {
-                return instr;
+                allFound.add(instr);
             }
         }
-        return null;
+        if (allFound.isEmpty()) {
+            return null;
+        }
+        return allFound;
     }
 
     @Override
-    public Instrument findInstrType(String type) throws Exception {
+    public ArrayList<Instrument> findInstrType(String type) throws Exception {
+        ArrayList<Instrument> allFound = new ArrayList<Instrument>();
         for (Instrument instr : loadAllInstr()) {
             if (instr.getType().toLowerCase().contains(type)) {
-                return instr;
+                allFound.add(instr);
             }
         }
-        return null;
+        if (allFound.isEmpty()) {
+            return null;
+        }
+        return allFound;
     }
 
     @Override
-    public Instrument findInstrManuf(String manuf) throws Exception {
+    public ArrayList<Instrument> findInstrManuf(String manuf) throws Exception {
+        ArrayList<Instrument> allFound = new ArrayList<Instrument>();
         for (Instrument instr : loadAllInstr()) {
             if (instr.getManufacturer().toLowerCase().contains(manuf)) {
+                allFound.add(instr);
+            }
+        }
+        if (allFound.isEmpty()) {
+            return null;
+        }
+        return allFound;
+    }
+
+    @Override
+    public Instrument findInstrId(int id) throws Exception {
+        for (Instrument instr : loadAllInstr()) {
+            if (instr.getInventoryId() == id) {
                 return instr;
             }
         }
@@ -87,38 +140,54 @@ public class PersisterImpl implements Persister{
     }
 
     @Override
-    public Leaser findLeaserName(String name) throws Exception {
+    public ArrayList<Leaser> findLeaserName(String name) throws Exception {
+        ArrayList<Leaser> foundAll = new ArrayList<Leaser>();
         for (Leaser temp : loadAllLeaser()) {
             if (temp.getName().toLowerCase().contains(name)) {
-                return temp;
+                foundAll.add(temp);
             }
         }
-        return null;
+        if (foundAll.isEmpty()) {
+            return null;
+        }
+        return foundAll;
     }
 
     @Override
-    public Leaser findLeaserEmail(String email) throws Exception {
+    public ArrayList<Leaser> findLeaserEmail(String email) throws Exception {
+        ArrayList<Leaser> foundAll = new ArrayList<Leaser>();
         for (Leaser temp : loadAllLeaser()) {
             if (temp.getContact().getEmail().toLowerCase().contains(email)) {
-                return temp;
+                foundAll.add(temp);
             }
         }
-        return null;
+        if (foundAll.isEmpty()) {
+            return null;
+        }
+        return foundAll;
     }
 
     @Override
-    public Leaser findLeaserCity(String city) throws Exception {
+    public ArrayList<Leaser> findLeaserCity(String city) throws Exception {
+        ArrayList<Leaser> foundAll = new ArrayList<Leaser>();
         for (Leaser temp : loadAllLeaser()) {
             if (temp.getAddress().getCity().toLowerCase().contains(city)) {
-                return temp;
+                foundAll.add(temp);
             }
         }
-        return null;
+        if (foundAll.isEmpty()) {
+            return null;
+        }
+        return foundAll;
     }
 
     @Override
-    public Instrument deleteInstrument(Instrument instr) throws Exception {
-
+    public Leaser findLeaserId(String id) throws Exception {
+        for (Leaser temp : loadAllLeaser()) {
+            if (temp.getId().toLowerCase().contains(id)) {
+                return temp;
+            }
+        }
         return null;
     }
 

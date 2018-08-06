@@ -3,6 +3,7 @@ package com.music4you.business.api;
 import com.music4you.domain.Instrument;
 import com.music4you.domain.Leaser;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -33,24 +34,30 @@ public interface Administration {
      * @param model, type, manuf
      * @throws Exception
      */
-    Instrument findInstrModel(String model) throws Exception;
+    ArrayList<Instrument> findInstrModel(String model) throws Exception;
 
-    Instrument findInstrType(String type) throws Exception;
+    ArrayList<Instrument> findInstrType(String type) throws Exception;
 
-    Instrument findInstrManuf(String manuf) throws Exception;
+    ArrayList<Instrument> findInstrManuf(String manuf) throws Exception;
+
+    Instrument findInstrId(int id) throws Exception;
 
     /**
      * Searches for a leaser(s) in the leaser data file with given attribute
      * @param name, email, city
      * @throws Exception
      */
-    Leaser findLeaserName(String name) throws Exception;
+    ArrayList<Leaser> findLeaserName(String name) throws Exception;
 
-    Leaser findLeaserEmail(String email) throws Exception;
+    ArrayList<Leaser> findLeaserEmail(String email) throws Exception;
 
-    Leaser findLeaserCity(String city) throws Exception;
+    ArrayList<Leaser> findLeaserCity(String city) throws Exception;
 
-    Instrument deleteInstrument(Instrument instr) throws Exception;
+    Leaser findLeaserId(String id) throws Exception;
+
+    Leaser delete(Leaser leaser) throws Exception;
+
+    Instrument delete(Instrument instrument) throws Exception;
 
     /**
      * Shows all the entries in the instrument data file
