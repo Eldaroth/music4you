@@ -221,7 +221,50 @@ public class InstrumentCatalogUI {
                 switch (chosenOption) {
 
                     case 1:
-                        System.out.println("In development");
+                        Scanner sc1 = new Scanner(System.in);
+
+                        while (true) {
+                            System.out.println("\nPlease enter client ID: ");
+                            int id = Integer.parseInt(sc1.nextLine());
+                            Instrument instr = new Instrument("","","");
+                            int counter = 0;
+
+                            for (Instrument temp : input) {
+                                if (temp.getInventoryId() == id) {
+                                    try {
+                                        instr = temp;
+                                        administration.delete(temp);
+                                        counter++;
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                            if (counter == 0) {
+                                System.out.println("No such ID found, try again");
+                                break;
+                            }
+
+                            System.out.println("What would you like to edit:");
+
+                            System.out.println("\n[1] Model" + "\n[2] Type" + "\n[3] Manufacturer");
+
+                            int option = Integer.parseInt(sc1.nextLine());
+                            if (option > 3) {
+                                System.out.println("No option, try again");
+                                break;
+                            }
+
+                            instr = editInstrument(instr, option);
+
+                            try {
+                                administration.addInstrument(instr);
+                                break;
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                System.out.println("Error while editing client");
+                            }
+                        }
                         break;
 
                     case 2:
@@ -256,6 +299,7 @@ public class InstrumentCatalogUI {
                             }
                             break;
                         }
+                        break;
 
                     case 0:
                         instrumentSearchFor();
@@ -310,6 +354,27 @@ public class InstrumentCatalogUI {
             System.out.println("\n" + e.getMessage());
             System.out.println("Instrument could not been added to catalog");
         }
+    }
+
+    public static Instrument editInstrument(Instrument instr, int option) {
+        Scanner sc = new Scanner(System.in);
+
+        if (option == 1) {
+            System.out.print("Please enter new model: ");
+            String newModel = sc.nextLine();
+            instr.setModel(newModel);
+        } else if (option == 2) {
+            System.out.print("Please enter new type: ");
+            String newType = sc.nextLine();
+            instr.setType(newType);
+        } else if (option == 3) {
+            System.out.print("Please enter new manufacturer: ");
+            String newManuf = sc.nextLine();
+            instr.setManufacturer(newManuf);
+        } else {
+            System.out.println("Error");
+        }
+        return instr;
     }
 
 }

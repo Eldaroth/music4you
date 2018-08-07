@@ -373,7 +373,7 @@ public class ClientRegistryUI {
     }
 
     /**
-     * Initiate to adding a client to the registry with differentiator btw Club & Person
+     * Initiate to adding a client to the registry with differentiation btw Club & Person
      */
     public static void addClient() {
         Scanner sc = new Scanner(System.in);
@@ -390,7 +390,7 @@ public class ClientRegistryUI {
     }
 
     /**
-     * Method for adding a Club Object to the registry
+     * Method for adding a Club Leaser to the registry
      */
     public static void addClub() {
         Scanner sc = new Scanner(System.in);
@@ -435,7 +435,7 @@ public class ClientRegistryUI {
     }
 
     /**
-     * Method for adding a Person Object to the registry
+     * Method for adding a Person Leaser to the registry
      */
     public static void addPerson() {
         Scanner sc = new Scanner(System.in);
@@ -492,6 +492,9 @@ public class ClientRegistryUI {
         }
     }
 
+    /**
+     * Method for getting new parameter to edit a specific leaser
+     */
     public static Leaser editLeaser(Leaser leaser, boolean isClub, int option) {
         Scanner sc = new Scanner(System.in);
 

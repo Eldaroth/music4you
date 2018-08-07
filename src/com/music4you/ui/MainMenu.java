@@ -66,7 +66,8 @@ public class MainMenu {
                         break;
 
                     case 3:
-                        System.out.println("\nIn development");
+                        RentingUI submenu3 = new RentingUI(administration);
+                        submenu3.showMenu();
                         break;
 
                     case 0:
