@@ -13,8 +13,8 @@ import java.util.UUID;
 
 public class Leaser implements Serializable {
     // Declare attributes
-    private static final int LEASE_LENGTH_CLUB = 1; //minimal lease length in months for a club
-    private static final int LEASE_LENGTH_PERSON = 6; //minimal lease length in months for a person
+    private static final long LEASE_LENGTH_CLUB = 1; //minimal lease length in months for a club
+    private static final long LEASE_LENGTH_PERSON = 6; //minimal lease length in months for a person
 
     private String id;
     private String name;
@@ -23,7 +23,6 @@ public class Leaser implements Serializable {
     private Address address;
     private Contact contact;
     private String contactPerson;
-    private int leaseLength;
     private boolean clubTag;
 
     // Constructor
@@ -41,7 +40,6 @@ public class Leaser implements Serializable {
         this(inName);
         this.firstName = inFirstName;
         this.dateOfBirth = inDateOfBirth;
-        this.leaseLength = LEASE_LENGTH_PERSON;
         this.clubTag = false;
     }
 
@@ -49,7 +47,6 @@ public class Leaser implements Serializable {
     public Leaser(String inName, String inContactPerson) {
         this(inName);
         this.contactPerson = inContactPerson;
-        this.leaseLength = LEASE_LENGTH_CLUB;
         this.clubTag = true;
     }
 
@@ -108,14 +105,6 @@ public class Leaser implements Serializable {
         this.contactPerson = contactPerson;
     }
 
-    public int getLeaseLength() {
-        return leaseLength;
-    }
-
-    public void setLeaseLength(int leaseLength) {
-        this.leaseLength = leaseLength;
-    }
-
     public boolean isClubTag() {
         return clubTag;
     }
@@ -124,6 +113,13 @@ public class Leaser implements Serializable {
         this.clubTag = clubTag;
     }
 
+    public static long getLeaseLengthClub() {
+        return LEASE_LENGTH_CLUB;
+    }
+
+    public static long getLeaseLengthPerson() {
+        return LEASE_LENGTH_PERSON;
+    }
 
     /**
      * Helper class to print the leasers

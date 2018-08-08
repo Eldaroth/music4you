@@ -4,6 +4,7 @@ import com.music4you.domain.Instrument;
 import com.music4you.domain.Leaser;
 
 import java.lang.reflect.Array;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /**
@@ -76,5 +77,7 @@ public interface Administration {
      * @throws Exception
      */
     ArrayList<Integer> allInventoryId() throws Exception;
+
+    void rent(Leaser leaser, Instrument instr, LocalDate start, LocalDate end) throws Exception;
 
 }

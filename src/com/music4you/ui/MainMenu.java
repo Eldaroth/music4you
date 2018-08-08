@@ -48,7 +48,7 @@ public class MainMenu {
                 MenuSkeleton main = new MenuSkeleton("Main Menu", "Exit program");
                 main.addMenuItem("Instrument catalog");
                 main.addMenuItem("Client registry");
-                main.addMenuItem("Renting");
+                main.addMenuItem("Rentals");
                 main.printMenu();
 
                 int chosenOption = Integer.parseInt(sc.nextLine());

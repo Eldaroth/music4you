@@ -24,6 +24,8 @@ public interface Persister {
 
     void save(Leaser leaser) throws Exception;
 
+    void rent(Leaser leaser, Instrument instr) throws Exception;
+
     /**
      * Deletes the client or instrument from the data file
      * @param leaser, instrument
@@ -75,5 +77,10 @@ public interface Persister {
      */
     ArrayList<Leaser> loadAllLeaser() throws Exception;
 
+    /**
+     * Method for getting all used inventory ID for instruments
+     * @return
+     * @throws Exception
+     */
     ArrayList<Integer> allInventoryId() throws Exception;
 }

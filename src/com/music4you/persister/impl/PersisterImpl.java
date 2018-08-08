@@ -5,9 +5,9 @@ import com.music4you.domain.Leaser;
 import com.music4you.persister.api.Persister;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 /**
  * Implementation of the Persister API
@@ -21,8 +21,10 @@ public class PersisterImpl implements Persister{
     String userHomeDir = System.getProperty("user.home");
     String instrFileName = userHomeDir + File.separator + "music4youInstrSerialized.txt";
     String leaserFileName = userHomeDir + File.separator + "music4youLeaserSerialized.txt";
+    String rentalsFileName = userHomeDir + File.separator + "music4youRentalsSerialized.txt";
     File instrFile = new File(instrFileName);
     File leaserFile = new File(leaserFileName);
+    File rentalsFile = new File(rentalsFileName);
 
     /*
      * @see com.music4you.business.api.Administration#save
@@ -30,9 +32,8 @@ public class PersisterImpl implements Persister{
     @Override
     public void save(Instrument instr) throws Exception {
         ArrayList<Instrument> listInstr = new ArrayList<Instrument>();
-        /*
-         *Checks whether a file already exists and stores all the data in a new list
-         */
+
+        //Checks whether a file already exists and stores all the data in a new list
         if (instrFile.exists()) {
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(instrFileName))) {
                 listInstr = (ArrayList<Instrument>) ois.readObject();
@@ -56,6 +57,21 @@ public class PersisterImpl implements Persister{
         listLeaser.add(leaser);
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(leaserFileName))) {
             oos.writeObject(listLeaser);
+        }
+    }
+
+    @Override
+    public void rent(Leaser leaser, Instrument instr) throws Exception {
+        HashMap<String, Instrument> rentals = new HashMap<String, Instrument>();
+
+        if (rentalsFile.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(rentalsFileName))) {
+                rentals = (HashMap<String, Instrument>) ois.readObject();
+            }
+        }
+        rentals.put(leaser.getId(), instr);
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(rentalsFileName))) {
+            oos.writeObject(rentals);
         }
     }
 
@@ -239,5 +255,7 @@ public class PersisterImpl implements Persister{
         }
         return new ArrayList<Integer>();
     }
+
+
 
 }

@@ -1,6 +1,7 @@
 package com.music4you.domain;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * Class describes a real world object Instrument
@@ -16,6 +17,9 @@ public class Instrument implements Serializable {
     private String manufacturer;
     private int inventoryId;
     private boolean leased;
+    private LocalDate startLease;
+    private LocalDate endLease;
+
 
     // Constructor
     public Instrument (String inModel, String inType, String inManufacturer) {
@@ -67,6 +71,23 @@ public class Instrument implements Serializable {
 
     public boolean isLeased() {
         return leased;
+    }
+
+    public LocalDate getStartLease() {
+        return startLease;
+    }
+
+    public void setStartLease(LocalDate startLease) {
+        this.startLease = startLease;
+    }
+
+    public LocalDate getEndLease() {
+        return endLease;
+    }
+
+
+    public void setEndLease(LocalDate endLease) {
+        this.endLease = endLease;
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.music4you.domain.Instrument;
 import com.music4you.domain.Leaser;
 import com.music4you.persister.api.Persister;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -35,13 +36,6 @@ public class AdministrationImpl implements Administration {
         }
         persister.save(instr);
         return instr;
-
-//        if (persister.loadAllInstr().contains(instr)) {
-//            throw new Exception("Entry already existing");
-//        } else {
-//            persister.save(instr);
-//        }
-//        return instr;
     }
 
     @Override
@@ -55,13 +49,6 @@ public class AdministrationImpl implements Administration {
         }
         persister.save(leaser);
         return leaser;
-
-//        if (persister.loadAllLeaser().contains(leaser)) {
-//            throw new Exception("Entry already existing");
-//        } else {
-//            persister.save(leaser);
-//        }
-//        return leaser;
     }
 
     @Override
@@ -188,11 +175,25 @@ public class AdministrationImpl implements Administration {
             for (Instrument temp : persister.loadAllInstr()) {
                 allId.add(temp.getInventoryId());
             }
-            //Collections.sort(allId, Collections.reverseOrder());
             Collections.sort(allId);
             return allId;
         }
         return null;
+    }
+
+    @Override
+    public void rent(Leaser leaser, Instrument instr, LocalDate start, LocalDate end) throws Exception {
+        if (instr.isLeased()) {
+            throw new Exception("Already rented out");
+        }
+
+        instr.setStartLease(start);
+        if (leaser.isClubTag()) {
+            instr.setEndLease(end.plusMonths(leaser.getLeaseLengthClub()));
+        } else {
+            instr.setEndLease(end.plusMonths(leaser.getLeaseLengthPerson()));
+        }
+        persister.rent(leaser, instr);
     }
 
 }
