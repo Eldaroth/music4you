@@ -75,7 +75,6 @@ public class InstrumentCatalogUI {
      */
     public static void instrumentSearchFor() {
         Scanner searchFor = new Scanner(System.in);
-        //TODO Implement a check if the data file is empty; if yes, return message and stop menu
 
         while (true) {
             try { // catches the exception if the user does not enter an int variable
@@ -289,6 +288,7 @@ public class InstrumentCatalogUI {
                         }
                         break;
 
+                        //TODO implement replace function in client registry
                     case 2: //Edit instrument
                         Scanner sc1 = new Scanner(System.in);
 
