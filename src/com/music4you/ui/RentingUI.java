@@ -1,7 +1,11 @@
 package com.music4you.ui;
 
 import com.music4you.business.api.Administration;
+import com.music4you.domain.Instrument;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class RentingUI {
@@ -21,7 +25,6 @@ public class RentingUI {
         while (true) {
             try {
                 MenuSkeleton subMenu = new MenuSkeleton("Renting", "Back to Main Menu");
-                subMenu.addMenuItem("Rent out new instrument");
                 subMenu.addMenuItem("Return instrument");
                 subMenu.addMenuItem("Ongoing rentals");
                 subMenu.printMenu();
@@ -30,16 +33,46 @@ public class RentingUI {
 
                 switch (chosenOption) {
 
-                    case 1:
+                    case 1: //Return instrument
+                        Scanner sc = new Scanner(System.in);
+
+                        System.out.println("Please enter client ID: ");
+                        String clientId = sc.nextLine();
+
+
                         System.out.println("In development");
                         break;
 
-                    case 2:
-                        System.out.println("In development");
-                        break;
+                    case 2: //Ongoing rentals
+                        ArrayList<Instrument> listAll = new ArrayList<Instrument>();
+                        try {
+                            listAll = administration.showAllInstr();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
-                    case 3:
-                        System.out.println("In development");
+                        for (Instrument temp : listAll) {
+                            if (temp.isLeased()) {
+                                System.out.println("\n \n******************************");
+                                System.out.println(temp);
+                                System.out.println("\nLeased to: ");
+                                if (temp.getLeaser().isClubTag()) {
+                                    System.out.println(temp.getLeaser().printClub());
+                                } else {
+                                    System.out.println(temp.getLeaser().printPerson());
+                                }
+                                System.out.println("\nLeased from " + temp.getStartLease() + " until "
+                                        + temp.getEndLease());
+                                System.out.println("");
+                                System.out.println("\nPress enter to show next");
+                                try {
+                                    System.in.read();
+                                } catch (IOException io) {
+                                    io.printStackTrace();
+                                }
+                            }
+                        }
+
                         break;
 
                     case 0:

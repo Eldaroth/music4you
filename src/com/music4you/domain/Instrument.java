@@ -19,6 +19,7 @@ public class Instrument implements Serializable {
     private boolean leased;
     private LocalDate startLease;
     private LocalDate endLease;
+    private Leaser leaser;
 
 
     // Constructor
@@ -28,6 +29,17 @@ public class Instrument implements Serializable {
         this.manufacturer = inManufacturer;
         this.leased = false;
         this.inventoryId = 0;
+    }
+
+    public Instrument (Instrument original) {
+        this.model = original.model;
+        this.type = original.type;
+        this.manufacturer = original.manufacturer;
+        this.leased = original.leased;
+        this.inventoryId = original.inventoryId;
+        this.startLease = original.startLease;
+        this.endLease = original.endLease;
+        this.leaser = original.leaser;
     }
 
     /**
@@ -85,9 +97,16 @@ public class Instrument implements Serializable {
         return endLease;
     }
 
-
     public void setEndLease(LocalDate endLease) {
         this.endLease = endLease;
+    }
+
+    public Leaser getLeaser() {
+        return leaser;
+    }
+
+    public void setLeaser(Leaser leaser) {
+        this.leaser = leaser;
     }
 
     @Override

@@ -186,7 +186,6 @@ public class ClientRegistryUI {
 
                     case 4:
                         System.out.println("\n \n");
-                        boolean isEmpty = false;
                         System.out.println("Clubs:");
                         System.out.println("--------------------");
                         try {
@@ -197,10 +196,6 @@ public class ClientRegistryUI {
                                     allClubs.add(temp);
                                 }
                             }
-                            isEmpty = allClubs.isEmpty();
-                            if (isEmpty) {
-                                System.out.println("No entries");
-                            }
 
                             Iterator<Leaser> itClub = allClubs.iterator();
                             while (itClub.hasNext()) {
@@ -208,6 +203,8 @@ public class ClientRegistryUI {
                                 System.out.println(club);
                                 System.out.println("");
                             }
+                        } catch (NullPointerException n) {
+                            System.out.println("No entries");
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                             System.out.println("Could not been processed");
@@ -216,7 +213,6 @@ public class ClientRegistryUI {
                         System.in.read();
 
                         System.out.println("\n");
-                        boolean isEmpty2 = false;
                         System.out.println("Persons:");
                         System.out.println("--------------------");
                         try {
@@ -228,17 +224,14 @@ public class ClientRegistryUI {
                                 }
                             }
 
-                            isEmpty2 = allPerson.isEmpty();
-                            if (isEmpty2) {
-                                System.out.println("No entries");
-                            }
-
                             Iterator<Leaser> itPerson = allPerson.iterator();
                             while (itPerson.hasNext()) {
                                 String person = itPerson.next().printPerson();
                                 System.out.println(person);
                                 System.out.println("");
                             }
+                        } catch (NullPointerException n) {
+                            System.out.println("No entries");
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                             System.out.println("Could not been processed");
@@ -279,7 +272,7 @@ public class ClientRegistryUI {
 
                 switch (chosenOption) {
 
-                    case 1:
+                    case 1: //Edit client
                         Scanner sc1 = new Scanner(System.in);
 
                         while (true) {
@@ -332,7 +325,7 @@ public class ClientRegistryUI {
                         }
                         break;
 
-                    case 2:
+                    case 2: //Delete client
                         Scanner sc2 = new Scanner(System.in);
 
                         while (true) {
@@ -373,7 +366,7 @@ public class ClientRegistryUI {
     }
 
     /**
-     * Initiate to adding a client to the registry with differentiation btw Club & Person
+     * Initiator for adding a client to the registry with differentiation btw Club & Person
      */
     public static void addClient() {
         Scanner sc = new Scanner(System.in);

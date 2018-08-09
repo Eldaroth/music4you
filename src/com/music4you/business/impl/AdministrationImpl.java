@@ -54,7 +54,7 @@ public class AdministrationImpl implements Administration {
     @Override
     public ArrayList<Instrument> findInstrModel(String model) throws Exception {
         try {
-            return persister.findInstrModel(model);
+            return persister.findInstrModel(model.toLowerCase());
         } catch (Exception e) {
             throw new Exception("Model not found");
         }
@@ -63,7 +63,7 @@ public class AdministrationImpl implements Administration {
     @Override
     public ArrayList<Instrument> findInstrType(String type) throws Exception {
         try {
-            return persister.findInstrType(type);
+            return persister.findInstrType(type.toLowerCase());
         } catch (Exception e) {
             throw new Exception("No such type");
         }
@@ -72,7 +72,7 @@ public class AdministrationImpl implements Administration {
     @Override
     public ArrayList<Instrument> findInstrManuf(String manuf) throws Exception {
         try {
-            return persister.findInstrManuf(manuf);
+            return persister.findInstrManuf(manuf.toLowerCase());
         } catch (Exception e) {
             throw new Exception("Manufacturer not in catalog");
         }
@@ -90,7 +90,7 @@ public class AdministrationImpl implements Administration {
     @Override
     public ArrayList<Leaser> findLeaserName(String name) throws Exception {
         try {
-            return persister.findLeaserName(name);
+            return persister.findLeaserName(name.toLowerCase());
         } catch (Exception e) {
             throw new Exception("No client found");
         }
@@ -99,7 +99,7 @@ public class AdministrationImpl implements Administration {
     @Override
     public ArrayList<Leaser> findLeaserEmail(String email) throws Exception {
         try {
-            return persister.findLeaserEmail(email);
+            return persister.findLeaserEmail(email.toLowerCase());
         } catch (Exception e) {
             throw new Exception("No client found");
         }
@@ -108,7 +108,7 @@ public class AdministrationImpl implements Administration {
     @Override
     public ArrayList<Leaser> findLeaserCity(String city) throws Exception {
         try {
-            return persister.findLeaserCity(city);
+            return persister.findLeaserCity(city.toLowerCase());
         } catch (Exception e) {
             throw new Exception("No client found");
         }
@@ -117,7 +117,7 @@ public class AdministrationImpl implements Administration {
     @Override
     public Leaser findLeaserId(String id) throws Exception {
         try {
-            return persister.findLeaserId(id);
+            return persister.findLeaserId(id.toLowerCase());
         } catch (Exception e) {
             throw new Exception("No client found");
         }
@@ -125,6 +125,15 @@ public class AdministrationImpl implements Administration {
 
     @Override
     public Leaser delete(Leaser leaser) throws Exception {
+        ArrayList<Instrument> allInstr = showAllInstr();
+
+        for (Instrument temp : allInstr) {
+            if (temp.getLeaser().equals(leaser)) {
+                System.out.println("Client cannot be deleted, has ongoing rentals");
+                return null;
+            }
+        }
+
         try {
             persister.delete(leaser);
         } catch (Exception e) {
@@ -135,12 +144,30 @@ public class AdministrationImpl implements Administration {
 
     @Override
     public Instrument delete(Instrument instrument) throws Exception {
+        ArrayList<Instrument> allInstr = showAllInstr();
+
+        for (Instrument temp : allInstr) {
+            if (temp.equals(instrument) && temp.isLeased()) {
+                System.out.println("Instrument cannot be deleted, is part of ongoing rentals");
+                return null;
+            }
+        }
+
         try {
             persister.delete(instrument);
         } catch (Exception e) {
             throw new Exception("No instrument deleted");
         }
         return instrument;
+    }
+
+    @Override
+    public void replace(Instrument original, Instrument edited) throws Exception {
+        try {
+            persister.replace(original, edited);
+        } catch (Exception e) {
+            throw new Exception("No instrument replaced");
+        }
     }
 
     @Override
@@ -183,17 +210,31 @@ public class AdministrationImpl implements Administration {
 
     @Override
     public void rent(Leaser leaser, Instrument instr, LocalDate start, LocalDate end) throws Exception {
-        if (instr.isLeased()) {
-            throw new Exception("Already rented out");
-        }
+        Instrument original = new Instrument(instr);
 
         instr.setStartLease(start);
         if (leaser.isClubTag()) {
-            instr.setEndLease(end.plusMonths(leaser.getLeaseLengthClub()));
+            instr.setEndLease(start.plusMonths(leaser.getLeaseLengthClub()));
+            if (end.isAfter(instr.getEndLease()) || end.isEqual(instr.getEndLease())) {
+                instr.setEndLease(end);
+                instr.setLeaser(leaser);
+                instr.setLeased(true);
+            } else {
+                throw new Exception("Rental has to be at least for 1 month, try again");
+            }
         } else {
-            instr.setEndLease(end.plusMonths(leaser.getLeaseLengthPerson()));
+            instr.setEndLease(start.plusMonths(leaser.getLeaseLengthPerson()));
+            if (end.isAfter(instr.getEndLease()) || end.isEqual(instr.getEndLease())) {
+                instr.setEndLease(end);
+                instr.setLeaser(leaser);
+                instr.setLeased(true);
+            } else {
+                throw new Exception("Rental has to be at least for 6 months, try again");
+            }
         }
-        persister.rent(leaser, instr);
+
+        replace(original, instr);
+
     }
 
 }

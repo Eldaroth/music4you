@@ -60,6 +60,8 @@ public interface Administration {
 
     Instrument delete(Instrument instrument) throws Exception;
 
+    void replace(Instrument original, Instrument edited) throws Exception;
+
     /**
      * Shows all the entries in the instrument data file
      * @throws Exception

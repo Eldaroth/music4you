@@ -7,7 +7,7 @@ import com.music4you.persister.api.Persister;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.ListIterator;
 
 /**
  * Implementation of the Persister API
@@ -21,10 +21,8 @@ public class PersisterImpl implements Persister{
     String userHomeDir = System.getProperty("user.home");
     String instrFileName = userHomeDir + File.separator + "music4youInstrSerialized.txt";
     String leaserFileName = userHomeDir + File.separator + "music4youLeaserSerialized.txt";
-    String rentalsFileName = userHomeDir + File.separator + "music4youRentalsSerialized.txt";
     File instrFile = new File(instrFileName);
     File leaserFile = new File(leaserFileName);
-    File rentalsFile = new File(rentalsFileName);
 
     /*
      * @see com.music4you.business.api.Administration#save
@@ -61,21 +59,6 @@ public class PersisterImpl implements Persister{
     }
 
     @Override
-    public void rent(Leaser leaser, Instrument instr) throws Exception {
-        HashMap<String, Instrument> rentals = new HashMap<String, Instrument>();
-
-        if (rentalsFile.exists()) {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(rentalsFileName))) {
-                rentals = (HashMap<String, Instrument>) ois.readObject();
-            }
-        }
-        rentals.put(leaser.getId(), instr);
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(rentalsFileName))) {
-            oos.writeObject(rentals);
-        }
-    }
-
-    @Override
     public void delete(Leaser leaser) throws Exception {
         ArrayList<Leaser> listLeaser = loadAllLeaser();
         if (listLeaser.contains(leaser)) {
@@ -96,6 +79,23 @@ public class PersisterImpl implements Persister{
             listInstr.remove(instrument);
         } else {
             throw new Exception("Could not been deleted");
+        }
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(instrFileName))) {
+            oos.writeObject(listInstr);
+        }
+    }
+
+    @Override
+    public void replace(Instrument original, Instrument edited) throws Exception {
+        ArrayList<Instrument> listInstr = loadAllInstr();
+        ListIterator<Instrument> iterator = listInstr.listIterator();
+
+        while (iterator.hasNext()) {
+            Instrument next = iterator.next();
+            if (next.equals(original)) {
+                iterator.set(edited);
+            }
         }
 
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(instrFileName))) {
