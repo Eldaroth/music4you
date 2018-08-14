@@ -241,9 +241,7 @@ public class AdministrationImpl implements Administration {
                 throw new Exception("Rental has to be at least 6 months, please try again");
             }
         }
-
         replace(original, instr);
-
     }
 
 }

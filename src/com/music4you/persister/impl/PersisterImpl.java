@@ -19,14 +19,13 @@ import java.util.ListIterator;
 public class PersisterImpl implements Persister{
 
     String userHomeDir = System.getProperty("user.home");
-    String instrFileName = userHomeDir + File.separator + "music4youInstrSerialized.txt";
-    String leaserFileName = userHomeDir + File.separator + "music4youLeaserSerialized.txt";
+    //String instrFileName = userHomeDir + File.separator + "music4youInstrSerialized.txt";
+    //String leaserFileName = userHomeDir + File.separator + "music4youLeaserSerialized.txt";
+    String instrFileName = "music4youInstrSerialized.txt";
+    String leaserFileName = "music4youLeaserSerialized.txt";
     File instrFile = new File(instrFileName);
     File leaserFile = new File(leaserFileName);
 
-    /*
-     * @see com.music4you.business.api.Administration#save
-     */
     @Override
     public void save(Instrument instr) throws Exception {
         ArrayList<Instrument> listInstr = new ArrayList<Instrument>();
@@ -239,7 +238,6 @@ public class PersisterImpl implements Persister{
         } else {
             return new ArrayList<Instrument>();
         }
-
     }
 
     @Override
@@ -272,7 +270,5 @@ public class PersisterImpl implements Persister{
         }
         return new ArrayList<Integer>();
     }
-
-
 
 }

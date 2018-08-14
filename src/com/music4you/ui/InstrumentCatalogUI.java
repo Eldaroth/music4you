@@ -39,7 +39,8 @@ public class InstrumentCatalogUI {
 
         while (true) {
             try { // catches the exception if the user does not enter an int variable
-                MenuSkeleton subMain = new MenuSkeleton("Instrument catalog", "Back to Main Menu");
+                MenuSkeleton subMain = new MenuSkeleton("Instrument catalog",
+                        "Back to Main Menu");
                 subMain.addMenuItem("Add instrument");
                 subMain.addMenuItem("Search in catalog");
                 subMain.printMenu();
@@ -88,14 +89,14 @@ public class InstrumentCatalogUI {
                 subSearch.printMenu();
 
                 int chosenOption = Integer.parseInt(searchFor.nextLine());
+                Scanner sc = new Scanner(System.in);
 
                 switch (chosenOption) {
 
                     case 1:
                         try {
-                            Scanner scModel = new Scanner(System.in);
                             System.out.print("Enter model: ");
-                            String model = scModel.nextLine().toLowerCase();
+                            String model = sc.nextLine().toLowerCase();
 
                             System.out.println("\n \n");
                             ArrayList<Instrument> temp = administration.findInstrModel(model);
@@ -120,9 +121,8 @@ public class InstrumentCatalogUI {
 
                     case 2:
                         try {
-                            Scanner scType = new Scanner(System.in);
                             System.out.print("Enter type: ");
-                            String type = scType.nextLine().toLowerCase();
+                            String type = sc.nextLine().toLowerCase();
 
                             System.out.println("\n \n");
                             ArrayList<Instrument> temp = administration.findInstrType(type);
@@ -142,15 +142,13 @@ public class InstrumentCatalogUI {
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                             System.out.println("Input not valid");
-                            break;
                         }
                         break;
 
                     case 3:
                         try {
-                            Scanner scType = new Scanner(System.in);
                             System.out.print("Enter manufacturer: ");
-                            String manuf = scType.nextLine().toLowerCase();
+                            String manuf = sc.nextLine().toLowerCase();
 
                             System.out.println("\n \n");
                             ArrayList<Instrument> temp = administration.findInstrManuf(manuf);
@@ -170,7 +168,6 @@ public class InstrumentCatalogUI {
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                             System.out.println("Input not valid");
-                            break;
                         }
                         break;
 
@@ -190,7 +187,6 @@ public class InstrumentCatalogUI {
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                             System.out.println("Could not been processed");
-                            break;
                         }
                         break;
 
@@ -222,15 +218,14 @@ public class InstrumentCatalogUI {
                 subMain.printMenu();
 
                 int chosenOption = Integer.parseInt(optionsMenu.nextLine());
+                Scanner sc = new Scanner(System.in);
 
                 switch (chosenOption) {
 
                     case 1: //Rent out instrument
-                        Scanner sc2 = new Scanner(System.in);
-
                         while (true) {
-                            System.out.println("\nPlease enter inventory ID: ");
-                            int id = Integer.parseInt(sc2.nextLine());
+                            System.out.print("\nPlease enter inventory ID: ");
+                            int id = Integer.parseInt(sc.nextLine());
 
 
                             for (Instrument temp : input) {
@@ -243,8 +238,8 @@ public class InstrumentCatalogUI {
 
                                     Instrument original = new Instrument(temp);
 
-                                    System.out.println("Please enter client ID: ");
-                                    String clientId = sc2.nextLine();
+                                    System.out.print("Please enter client ID: ");
+                                    String clientId = sc.nextLine();
                                     try {
                                         Leaser client = administration.findLeaserId(clientId);
                                         if (client == null) {
@@ -259,25 +254,26 @@ public class InstrumentCatalogUI {
                                         break;
                                     }
 
-                                    System.out.println("Please enter start date for rent [dd.MM.yyyy]: ");
+                                    System.out.print("Please enter start date for rent [dd.MM.yyyy]: ");
                                     LocalDate start = LocalDate.now();
                                     boolean isSuccessful = false;
                                     while (!isSuccessful) {
                                         try { // Catching exception if user inputs invalid date
-                                            String startDate = sc2.nextLine();
-                                            start = LocalDate.parse(startDate, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+                                            String startDate = sc.nextLine();
+                                            start = LocalDate.parse(startDate,
+                                                    DateTimeFormatter.ofPattern("dd.MM.yyyy"));
                                             isSuccessful = true;
                                         } catch (Exception e) {
                                             System.out.print("Enter valid date [dd.MM.yyyy]: ");
                                         }
                                     }
 
-                                    System.out.println("Please enter end date for rent [dd.MM.yyyy]: ");
+                                    System.out.print("Please enter end date for rent [dd.MM.yyyy]: ");
                                     LocalDate end = LocalDate.now();
                                     boolean isSuccessful2 = false;
                                     while (!isSuccessful2) {
                                         try { // Catching exception if user inputs invalid date
-                                            String endDate = sc2.nextLine();
+                                            String endDate = sc.nextLine();
                                             end = LocalDate.parse(endDate, DateTimeFormatter.ofPattern("dd.MM.yyyy"));
                                             isSuccessful2 = true;
                                         } catch (Exception e) {
@@ -300,24 +296,24 @@ public class InstrumentCatalogUI {
                             }
                             break;
                         }
+                        instrumentSearchFor();
                         break;
-                    
-                    case 2: //Edit instrument
-                        Scanner sc1 = new Scanner(System.in);
 
+                    case 2: //Edit instrument
                         while (true) {
-                            System.out.println("\nPlease enter inventory ID: ");
-                            int id = Integer.parseInt(sc1.nextLine());
+                            System.out.print("\nPlease enter inventory ID: ");
+                            int id = Integer.parseInt(sc.nextLine());
+                            int counter = 0;
 
                             for (Instrument temp : input) {
                                 if (temp.getInventoryId() == id) {
-
+                                    counter++;
                                     Instrument original = new Instrument(temp);
 
                                     System.out.println("What would you like to edit:");
                                     System.out.println("\n[1] Model" + "\n[2] Type" + "\n[3] Manufacturer");
 
-                                    int option = Integer.parseInt(sc1.nextLine());
+                                    int option = Integer.parseInt(sc.nextLine());
                                     if (option > 3) {
                                         System.out.println("No option, try again");
                                         break;
@@ -326,27 +322,25 @@ public class InstrumentCatalogUI {
                                     temp = editInstrument(temp, option);
                                     try {
                                         administration.replace(original, temp);
-                                        //counter++;
-                                        break;
+                                        System.out.println("\nNew:" + "\n" + temp);
                                     } catch (Exception e) {
                                         System.out.println(e.getMessage());
                                         System.out.println("Error while editing instrument");
                                     }
-                                    break;
-                                } else {
-                                    System.out.println("\nNo such ID found, try again");
-                                    break;
                                 }
+                            }
+                            if (counter == 0) {
+                                System.out.println("No such ID found");
+                                break;
                             }
                             break;
                         }
+                        instrumentSearchFor();
                         break;
 
                     case 3: //delete instrument
-                        Scanner sc = new Scanner(System.in);
-
                         while (true) {
-                            System.out.println("\nPlease enter inventory ID to delete: ");
+                            System.out.print("\nPlease enter inventory ID to delete: ");
                             int id = Integer.parseInt(sc.nextLine());
                             int counter = 0;
 
@@ -365,7 +359,8 @@ public class InstrumentCatalogUI {
                                         System.out.println("\n \nPlease press enter to continue");
                                         System.in.read();
                                     } catch (Exception e) {
-                                        e.printStackTrace();
+                                        System.out.println(e.getMessage());
+                                        System.out.println("Error while deleting instrument");
                                     }
                                 }
                             }
@@ -374,6 +369,7 @@ public class InstrumentCatalogUI {
                             }
                             break;
                         }
+                        instrumentSearchFor();
                         break;
 
                     case 0:
@@ -409,8 +405,7 @@ public class InstrumentCatalogUI {
 
         Instrument instr = new Instrument(model, type, manufacturer);
 
-        try {
-            // Goes through all already existing inventory ID and searches a free one or sets the highest
+        try { // Goes through all already existing inventory ID and searches a free one or sets the highest
             int newId = 0;
             for (int i : administration.allInventoryId()) {
                 if (newId == i) {
@@ -431,7 +426,7 @@ public class InstrumentCatalogUI {
         }
     }
 
-    public static Instrument editInstrument(Instrument instr, int option) {
+    private static Instrument editInstrument(Instrument instr, int option) {
         Scanner sc = new Scanner(System.in);
 
         if (option == 1) {

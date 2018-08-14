@@ -15,7 +15,7 @@ public class Address implements Serializable{
     private String zip;
     private String city;
 
-    //Constructor
+    // Constructor
     public Address(String inStreet, String inZip, String inCity) {
         this.street = inStreet;
         this.zip = inZip;

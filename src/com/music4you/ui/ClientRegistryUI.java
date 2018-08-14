@@ -60,7 +60,6 @@ public class ClientRegistryUI {
                         break;
 
                     case 0:
-                        //MainMenu back = new MainMenu();
                         MainMenu.showMain();
                         break;
 
@@ -82,7 +81,8 @@ public class ClientRegistryUI {
 
         while (true) {
             try { // catches the exception if the user does not enter an int variable
-                MenuSkeleton subSearch = new MenuSkeleton("Search client registry", "Back to previous menu");
+                MenuSkeleton subSearch = new MenuSkeleton("Search client registry",
+                        "Back to previous menu");
                 subSearch.setOptionalText("I'd like to search for:");
                 subSearch.addMenuItem("Name");
                 subSearch.addMenuItem("E-Mail");
@@ -91,14 +91,14 @@ public class ClientRegistryUI {
                 subSearch.printMenu();
 
                 int chosenOption = Integer.parseInt(searchFor.nextLine());
+                Scanner sc = new Scanner(System.in);
 
                 switch (chosenOption) {
 
                     case 1:
                         try {
-                            Scanner scModel = new Scanner(System.in);
                             System.out.print("Enter name: ");
-                            String name = scModel.nextLine().toLowerCase();
+                            String name = sc.nextLine().toLowerCase();
 
                             System.out.println("\n \n");
                             ArrayList<Leaser> temp = administration.findLeaserName(name);
@@ -117,23 +117,17 @@ public class ClientRegistryUI {
 
                             options(temp);
 
-//                            System.out.println("\n \nPlease press enter to continue");
-//                            System.in.read();
                         } catch (NullPointerException n) {
                             System.out.println("No entry found");
-                            break;
                         } catch (Exception e) {
-                            //e.printStackTrace();
                             System.out.println("Input not valid");
-                            break;
                         }
                         break;
 
                     case 2:
                         try {
-                            Scanner scType = new Scanner(System.in);
                             System.out.print("Enter e-mail: ");
-                            String email = scType.nextLine().toLowerCase();
+                            String email = sc.nextLine().toLowerCase();
 
                             System.out.println("\n \n");
                             ArrayList<Leaser> temp = administration.findLeaserEmail(email);
@@ -150,11 +144,12 @@ public class ClientRegistryUI {
                                 }
                             }
 
-                            System.out.println("\n \nPlease press enter to continue");
-                            System.in.read();
+                            options(temp);
+
+                        } catch (NullPointerException n) {
+                            System.out.println("No entry found");
                         } catch (Exception e) {
                             System.out.println("Input not valid");
-                            break;
                         }
                         break;
 
@@ -179,11 +174,12 @@ public class ClientRegistryUI {
                                 }
                             }
 
-                            System.out.println("\n \nPlease press enter to continue");
-                            System.in.read();
+                            options(temp);
+
+                        } catch (NullPointerException n) {
+                            System.out.println("No entry found");
                         } catch (Exception e) {
                             System.out.println("Input not valid");
-                            break;
                         }
                         break;
 
@@ -206,12 +202,14 @@ public class ClientRegistryUI {
                                 System.out.println(club);
                                 System.out.println("");
                             }
+
                         } catch (NullPointerException n) {
                             System.out.println("No entries");
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                             System.out.println("Could not been processed");
                         }
+
                         System.out.println("\nPlease press enter to show persons");
                         System.in.read();
 
@@ -233,6 +231,7 @@ public class ClientRegistryUI {
                                 System.out.println(person);
                                 System.out.println("");
                             }
+
                         } catch (NullPointerException n) {
                             System.out.println("No entries");
                         } catch (Exception e) {
@@ -252,6 +251,7 @@ public class ClientRegistryUI {
                         System.out.println("\n \n \nPlease chose a valid option");
                         break;
                 }
+
             } catch (NumberFormatException e) {
                 System.out.println("\n \n \nInvalid Input. Please enter a number.");
             } catch (IOException e) {
@@ -272,19 +272,20 @@ public class ClientRegistryUI {
                 subMain.printMenu();
 
                 int chosenOption = Integer.parseInt(optionsMenu.nextLine());
+                Scanner sc = new Scanner(System.in);
 
                 switch (chosenOption) {
 
                     case 1: //Edit client
-                        Scanner sc1 = new Scanner(System.in);
-
                         while (true) {
-                            System.out.println("\nPlease enter client ID: ");
-                            String id = sc1.nextLine().toLowerCase();
+                            System.out.print("\nPlease enter client ID: ");
+                            String id = sc.nextLine().toLowerCase();
+                            int counter = 0;
 
                             for (Leaser temp : input) {
                                 if (temp.getId().toLowerCase().equals(id)) {
 
+                                    counter++;
                                     Leaser original = new Leaser(temp);
 
                                     System.out.println("What would you like to edit:");
@@ -297,7 +298,7 @@ public class ClientRegistryUI {
                                         System.out.println("\n[1] First name" + "\n[2] Last name" + "\n[3] E-Mail"
                                                 + "\n[4] Phone number" + "\n[5] Address");
                                     }
-                                    int option = Integer.parseInt(sc1.nextLine());
+                                    int option = Integer.parseInt(sc.nextLine());
                                     if (option > 5) {
                                         System.out.println("No option, try again");
                                         break;
@@ -306,6 +307,14 @@ public class ClientRegistryUI {
                                     temp = editLeaser(original, isClub, option);
                                     try {
                                         administration.replace(original, temp);
+                                        System.out.println("\nNew: ");
+                                        if (temp.isClubTag()) {
+                                            String club = temp.printClub();
+                                            System.out.println(club);
+                                        } else {
+                                            String person = temp.printPerson();
+                                            System.out.println(person);
+                                        }
                                         break;
                                     } catch (Exception e) {
                                         System.out.println(e.getMessage());
@@ -313,16 +322,19 @@ public class ClientRegistryUI {
                                     }
                                 }
                             }
+                            if (counter == 0) {
+                                System.out.println("No such ID found");
+                                break;
+                            }
                             break;
                         }
+                        clientSearchFor();
                         break;
 
                     case 2: //Delete client
-                        Scanner sc2 = new Scanner(System.in);
-
                         while (true) {
-                            System.out.println("\nPlease enter client ID to delete: ");
-                            String id = sc2.nextLine().toLowerCase();
+                            System.out.print("\nPlease enter client ID to delete: ");
+                            String id = sc.nextLine().toLowerCase();
                             int counter = 0;
 
                             for (Leaser temp : input) {
@@ -332,7 +344,8 @@ public class ClientRegistryUI {
                                         administration.delete(temp);
                                         counter++;
                                     } catch (Exception e) {
-                                        e.printStackTrace();
+                                        System.out.println(e.getMessage());
+                                        System.out.println("Error while deleting client");
                                     }
                                 }
                             }
@@ -341,6 +354,7 @@ public class ClientRegistryUI {
                             }
                             break;
                         }
+                        clientSearchFor();
                         break;
 
                     case 0:

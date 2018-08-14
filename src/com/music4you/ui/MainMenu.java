@@ -32,18 +32,6 @@ public class MainMenu {
         Scanner sc = new Scanner(System.in);
 
         while (true) {
-            /*System.out.println("\n \n \n");
-            System.out.println("Main Menu");
-            System.out.println("******************************");
-            System.out.println("[1] Instrument catalog");
-            System.out.println("[2] Client registry");
-            System.out.println("[3] Renting");
-            System.out.println("");
-            System.out.println("[0] Exit program");
-            System.out.println("******************************");
-            System.out.println("");
-            System.out.print("Please chose your option: ");*/
-
             try { // catches the exception if the user does not enter an int variable
                 MenuSkeleton main = new MenuSkeleton("Main Menu", "Exit program");
                 main.addMenuItem("Instrument catalog");

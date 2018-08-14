@@ -44,7 +44,8 @@ public class RentingUI {
                 try {
                     listAll = administration.showAllInstr();
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    System.out.println(e.getMessage());
+                    System.out.println("Error");
                 }
 
                 switch (chosenOption) {
@@ -149,6 +150,5 @@ public class RentingUI {
             io.printStackTrace();
         }
     }
-
 
 }

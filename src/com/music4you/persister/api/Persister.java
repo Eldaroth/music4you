@@ -23,8 +23,6 @@ public interface Persister {
 
     void save(Leaser leaser) throws Exception;
 
-//    void rent(Leaser leaser, Instrument instr) throws Exception;
-
     /**
      * Deletes the client or instrument from the data file
      * @param leaser, instrument
@@ -34,6 +32,12 @@ public interface Persister {
 
     void delete(Instrument instrument) throws Exception;
 
+    /**
+     * Replaces the original client/instrument with the updated one
+     * @param original
+     * @param edited
+     * @throws Exception
+     */
     void replace(Instrument original, Instrument edited) throws Exception;
 
     void replace(Leaser original, Leaser edited) throws Exception;

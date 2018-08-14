@@ -56,9 +56,22 @@ public interface Administration {
 
     Leaser findLeaserId(String id) throws Exception;
 
+    /**
+     * Deletes a leaser/instrument from the respective data file
+     * @param leaser, instrument
+     * @throws Exception
+     */
+
     Leaser delete(Leaser leaser) throws Exception;
 
     Instrument delete(Instrument instrument) throws Exception;
+
+    /**
+     * Methods for replacing an original instrument/leaser with the edited one
+     * @param original
+     * @param edited
+     * @throws Exception
+     */
 
     void replace(Instrument original, Instrument edited) throws Exception;
 
@@ -81,6 +94,15 @@ public interface Administration {
      * @throws Exception
      */
     ArrayList<Integer> allInventoryId() throws Exception;
+
+    /**
+     * Method for renting out a instrument to a leaser
+     * @param leaser
+     * @param instr
+     * @param start
+     * @param end
+     * @throws Exception
+     */
 
     void rent(Leaser leaser, Instrument instr, LocalDate start, LocalDate end) throws Exception;
 
