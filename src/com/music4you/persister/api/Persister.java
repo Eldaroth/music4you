@@ -12,7 +12,6 @@ import java.util.ArrayList;
  */
 
 public interface Persister {
-    //TODO check which Exceptions are really needed and clean up your code
 
     /**
      * Saves a new instrument or leaser
@@ -36,6 +35,8 @@ public interface Persister {
     void delete(Instrument instrument) throws Exception;
 
     void replace(Instrument original, Instrument edited) throws Exception;
+
+    void replace(Leaser original, Leaser edited) throws Exception;
 
     /**
      * Searches for an instrument with given parameter

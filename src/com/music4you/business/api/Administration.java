@@ -62,6 +62,8 @@ public interface Administration {
 
     void replace(Instrument original, Instrument edited) throws Exception;
 
+    void replace(Leaser original, Leaser edited) throws Exception;
+
     /**
      * Shows all the entries in the instrument data file
      * @throws Exception

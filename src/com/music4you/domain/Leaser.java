@@ -50,6 +50,18 @@ public class Leaser implements Serializable {
         this.clubTag = true;
     }
 
+    // For cloning a leaser object
+    public Leaser(Leaser original) {
+        this.id = original.id;
+        this.name = original.name;
+        this.firstName = original.firstName;
+        this.dateOfBirth = original.dateOfBirth;
+        this.address = original.address;
+        this.contact = original.contact;
+        this.contactPerson = original.contactPerson;
+        this.clubTag = original.clubTag;
+    }
+
     /**
      * Getter and setter methods
      */
@@ -57,7 +69,7 @@ public class Leaser implements Serializable {
         return id;
     }
 
-    public void setName (String name) {
+    public void setName(String name) {
         this.name = name;
     }
 

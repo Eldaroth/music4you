@@ -23,7 +23,7 @@ public class Instrument implements Serializable {
 
 
     // Constructor
-    public Instrument (String inModel, String inType, String inManufacturer) {
+    public Instrument(String inModel, String inType, String inManufacturer) {
         this.model = inModel;
         this.type = inType;
         this.manufacturer = inManufacturer;
@@ -31,7 +31,8 @@ public class Instrument implements Serializable {
         this.inventoryId = 0;
     }
 
-    public Instrument (Instrument original) {
+    // For cloning an instrument object
+    public Instrument(Instrument original) {
         this.model = original.model;
         this.type = original.type;
         this.manufacturer = original.manufacturer;

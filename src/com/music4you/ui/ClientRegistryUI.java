@@ -281,50 +281,39 @@ public class ClientRegistryUI {
                         while (true) {
                             System.out.println("\nPlease enter client ID: ");
                             String id = sc1.nextLine().toLowerCase();
-                            Leaser leaser = new Leaser("TEST");
-                            int counter = 0;
 
                             for (Leaser temp : input) {
                                 if (temp.getId().toLowerCase().equals(id)) {
+
+                                    Leaser original = new Leaser(temp);
+
+                                    System.out.println("What would you like to edit:");
+                                    boolean isClub = false;
+                                    if (temp.isClubTag()) {
+                                        System.out.println("\n[1] Name" + "\n[2] Contact person" + "\n[3] E-Mail"
+                                                + "\n[4] Phone number" + "\n[5] Address");
+                                        isClub = true;
+                                    } else {
+                                        System.out.println("\n[1] First name" + "\n[2] Last name" + "\n[3] E-Mail"
+                                                + "\n[4] Phone number" + "\n[5] Address");
+                                    }
+                                    int option = Integer.parseInt(sc1.nextLine());
+                                    if (option > 5) {
+                                        System.out.println("No option, try again");
+                                        break;
+                                    }
+
+                                    temp = editLeaser(original, isClub, option);
                                     try {
-                                        leaser = temp;
-                                        administration.delete(temp);
-                                        counter++;
+                                        administration.replace(original, temp);
+                                        break;
                                     } catch (Exception e) {
-                                        e.printStackTrace();
+                                        System.out.println(e.getMessage());
+                                        System.out.println("Error while editing client");
                                     }
                                 }
                             }
-                            if (counter == 0) {
-                                System.out.println("No such ID found, try again");
-                                break;
-                            }
-
-                            System.out.println("What would you like to edit:");
-                            boolean isClub = false;
-                            if (leaser.isClubTag()) {
-                                System.out.println("\n[1] Name" + "\n[2] Contact person" + "\n[3] E-Mail"
-                                        + "\n[4] Phone number" + "\n[5] Address");
-                                isClub = true;
-                            } else {
-                                System.out.println("\n[1] First name" + "\n[2] Last name" + "\n[3] E-Mail"
-                                        + "\n[4] Phone number" + "\n[5] Address");
-                            }
-                            int option = Integer.parseInt(sc1.nextLine());
-                            if (option > 5) {
-                                System.out.println("No option, try again");
-                                break;
-                            }
-
-                            leaser = editLeaser(leaser, isClub, option);
-
-                            try {
-                                administration.addLeaser(leaser);
-                                break;
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                System.out.println("Error while editing client");
-                            }
+                            break;
                         }
                         break;
 

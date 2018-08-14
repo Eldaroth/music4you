@@ -301,8 +301,7 @@ public class InstrumentCatalogUI {
                             break;
                         }
                         break;
-
-                        //TODO implement replace function in client registry
+                    
                     case 2: //Edit instrument
                         Scanner sc1 = new Scanner(System.in);
 
@@ -330,7 +329,7 @@ public class InstrumentCatalogUI {
                                         //counter++;
                                         break;
                                     } catch (Exception e) {
-                                        e.printStackTrace();
+                                        System.out.println(e.getMessage());
                                         System.out.println("Error while editing instrument");
                                     }
                                     break;

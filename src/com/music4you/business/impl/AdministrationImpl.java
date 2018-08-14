@@ -171,6 +171,15 @@ public class AdministrationImpl implements Administration {
     }
 
     @Override
+    public void replace(Leaser original, Leaser edited) throws Exception {
+        try {
+            persister.replace(original, edited);
+        } catch (Exception e) {
+            throw new Exception("No client replaced");
+        }
+    }
+
+    @Override
     public ArrayList<Instrument> showAllInstr() throws Exception {
         ArrayList<Instrument> listAll = new ArrayList<Instrument>(persister.loadAllInstr());
         if (!listAll.isEmpty()) {

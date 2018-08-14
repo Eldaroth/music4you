@@ -104,6 +104,23 @@ public class PersisterImpl implements Persister{
     }
 
     @Override
+    public void replace(Leaser original, Leaser edited) throws Exception {
+        ArrayList<Leaser> listLeaser = loadAllLeaser();
+        ListIterator<Leaser> iterator = listLeaser.listIterator();
+
+        while (iterator.hasNext()) {
+            Leaser next = iterator.next();
+            if (next.equals(original)) {
+                iterator.set(edited);
+            }
+        }
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(leaserFileName))) {
+            oos.writeObject(listLeaser);
+        }
+    }
+
+    @Override
     public ArrayList<Instrument> findInstrModel(String model) throws Exception {
         ArrayList<Instrument> allFound = new ArrayList<Instrument>();
         for (Instrument instr : loadAllInstr()) {
