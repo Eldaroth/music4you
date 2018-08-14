@@ -119,8 +119,11 @@ public class ClientRegistryUI {
 
 //                            System.out.println("\n \nPlease press enter to continue");
 //                            System.in.read();
+                        } catch (NullPointerException n) {
+                            System.out.println("No entry found");
+                            break;
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            //e.printStackTrace();
                             System.out.println("Input not valid");
                             break;
                         }

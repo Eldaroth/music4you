@@ -220,7 +220,7 @@ public class AdministrationImpl implements Administration {
                 instr.setLeaser(leaser);
                 instr.setLeased(true);
             } else {
-                throw new Exception("Rental has to be at least for 1 month, try again");
+                throw new Exception("Rental has to be at least 1 month, please try again");
             }
         } else {
             instr.setEndLease(start.plusMonths(leaser.getLeaseLengthPerson()));
@@ -229,7 +229,7 @@ public class AdministrationImpl implements Administration {
                 instr.setLeaser(leaser);
                 instr.setLeased(true);
             } else {
-                throw new Exception("Rental has to be at least for 6 months, try again");
+                throw new Exception("Rental has to be at least 6 months, please try again");
             }
         }
 

@@ -110,11 +110,11 @@ public class InstrumentCatalogUI {
 
                             options(temp);
 
-                            //System.out.println("\n \nPlease press enter to continue");
-                            //System.in.read();
+                        } catch (NullPointerException n) {
+                            System.out.println("No instrument found");
                         } catch (Exception e) {
+                            System.out.println(e.getMessage());
                             System.out.println("Input not valid");
-                            break;
                         }
                         break;
 
@@ -137,9 +137,10 @@ public class InstrumentCatalogUI {
 
                             options(temp);
 
-                            //System.out.println("\n \nPlease press enter to continue");
-                            //System.in.read();
+                        } catch (NullPointerException n) {
+                            System.out.println("No instrument found");
                         } catch (Exception e) {
+                            System.out.println(e.getMessage());
                             System.out.println("Input not valid");
                             break;
                         }
@@ -164,9 +165,10 @@ public class InstrumentCatalogUI {
 
                             options(temp);
 
-                            //System.out.println("\n \nPlease press enter to continue");
-                            //System.in.read();
+                        } catch (NullPointerException n) {
+                            System.out.println("No instrument found");
                         } catch (Exception e) {
+                            System.out.println(e.getMessage());
                             System.out.println("Input not valid");
                             break;
                         }
@@ -243,6 +245,19 @@ public class InstrumentCatalogUI {
 
                                     System.out.println("Please enter client ID: ");
                                     String clientId = sc2.nextLine();
+                                    try {
+                                        Leaser client = administration.findLeaserId(clientId);
+                                        if (client == null) {
+                                            System.out.println("\nNot found");
+                                            break;
+                                        }
+                                    } catch (NullPointerException e) {
+                                        System.out.println(e.getMessage());
+                                        break;
+                                    } catch (Exception e) {
+                                        System.out.println("\nNot found");
+                                        break;
+                                    }
 
                                     System.out.println("Please enter start date for rent [dd.MM.yyyy]: ");
                                     LocalDate start = LocalDate.now();
@@ -274,8 +289,7 @@ public class InstrumentCatalogUI {
                                         Leaser leaser = administration.findLeaserId(clientId);
                                         administration.rent(leaser, temp, start, end);
                                     } catch (Exception e) {
-                                        System.out.println("\n");
-                                        e.getMessage();
+                                        System.out.println("\n" + e.getMessage());
                                     }
 
                                     break;

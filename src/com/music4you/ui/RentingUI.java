@@ -5,8 +5,14 @@ import com.music4you.domain.Instrument;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Scanner;
+
+/**
+ * Class used for interacting with rental menu
+ *
+ * @author Eldaroth
+ * @version 1.0
+ */
 
 public class RentingUI {
     private static Administration administration;
@@ -26,53 +32,84 @@ public class RentingUI {
             try {
                 MenuSkeleton subMenu = new MenuSkeleton("Renting", "Back to Main Menu");
                 subMenu.addMenuItem("Return instrument");
-                subMenu.addMenuItem("Ongoing rentals");
+                subMenu.addMenuItem("All ongoing rentals");
+                subMenu.addMenuItem("Search by client ID");
+                subMenu.addMenuItem("Search by instrument");
                 subMenu.printMenu();
 
                 int chosenOption = Integer.parseInt(showMenu.nextLine());
+                Scanner sc = new Scanner(System.in);
+
+                ArrayList<Instrument> listAll = new ArrayList<Instrument>();
+                try {
+                    listAll = administration.showAllInstr();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 switch (chosenOption) {
 
                     case 1: //Return instrument
-                        Scanner sc = new Scanner(System.in);
-
                         System.out.println("Please enter client ID: ");
-                        String clientId = sc.nextLine();
-
-
-                        System.out.println("In development");
-                        break;
-
-                    case 2: //Ongoing rentals
-                        ArrayList<Instrument> listAll = new ArrayList<Instrument>();
-                        try {
-                            listAll = administration.showAllInstr();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        String client = sc.nextLine().toLowerCase();
 
                         for (Instrument temp : listAll) {
-                            if (temp.isLeased()) {
-                                System.out.println("\n \n******************************");
-                                System.out.println(temp);
-                                System.out.println("\nLeased to: ");
-                                if (temp.getLeaser().isClubTag()) {
-                                    System.out.println(temp.getLeaser().printClub());
-                                } else {
-                                    System.out.println(temp.getLeaser().printPerson());
-                                }
-                                System.out.println("\nLeased from " + temp.getStartLease() + " until "
-                                        + temp.getEndLease());
-                                System.out.println("");
-                                System.out.println("\nPress enter to show next");
+                            if (temp.isLeased() && temp.getLeaser().getId().toLowerCase().equals(client)) {
+                                showRentals(temp);
+                            }
+                        }
+
+                        System.out.println("\nWhich instrument would you like to return?" +
+                                " Please enter inventory ID: ");
+                        int returnId = Integer.parseInt(sc.nextLine());
+
+                        for (Instrument temp : listAll) {
+                            if (temp.getInventoryId() == returnId) {
+                                Instrument original = new Instrument(temp);
+                                temp.setLeased(false);
+                                temp.setStartLease(null);
+                                temp.setEndLease(null);
                                 try {
-                                    System.in.read();
-                                } catch (IOException io) {
-                                    io.printStackTrace();
+                                    administration.replace(original, temp);
+                                    showRentals(original);
+                                } catch (Exception e) {
+                                    System.out.println(e.getMessage());
                                 }
                             }
                         }
 
+
+                        System.out.println("Instrument returned");
+                        break;
+
+                    case 2: //Ongoing rentals
+                        for (Instrument temp : listAll) {
+                            if (temp.isLeased()) {
+                                showRentals(temp);
+                            }
+                        }
+                        break;
+
+                    case 3:
+                        System.out.println("Please enter client ID: ");
+                        String clientId = sc.nextLine().toLowerCase();
+
+                        for (Instrument temp : listAll) {
+                            if (temp.isLeased() && temp.getLeaser().getId().toLowerCase().equals(clientId)) {
+                                showRentals(temp);
+                            }
+                        }
+                        break;
+
+                    case 4:
+                        System.out.println("Please enter inventory ID: ");
+                        int instrId = Integer.parseInt(sc.nextLine());
+
+                        for (Instrument temp : listAll) {
+                            if (temp.isLeased() && temp.getInventoryId() == instrId) {
+                                showRentals(temp);
+                            }
+                        }
                         break;
 
                     case 0:
@@ -89,4 +126,30 @@ public class RentingUI {
             }
         }
     }
+
+
+    /**
+     * Method for showing all the found rentals
+     */
+    private static void showRentals(Instrument instr) {
+        System.out.println("\n \n******************************");
+        System.out.println(instr);
+        System.out.println("\nLeased to: ");
+        if (instr.getLeaser().isClubTag()) {
+            System.out.println(instr.getLeaser().printClub());
+        } else {
+            System.out.println(instr.getLeaser().printPerson());
+        }
+        System.out.println("\nLeased from " + instr.getStartLease() + " until "
+                + instr.getEndLease());
+        System.out.println("");
+        System.out.println("\nPress enter to show next");
+        try {
+            System.in.read();
+        } catch (IOException io) {
+            io.printStackTrace();
+        }
+    }
+
+
 }
