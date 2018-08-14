@@ -71,7 +71,6 @@ public class RentingUI {
                                 temp.setEndLease(null);
                                 try {
                                     administration.replace(original, temp);
-                                    showRentals(original);
                                 } catch (Exception e) {
                                     System.out.println(e.getMessage());
                                 }
