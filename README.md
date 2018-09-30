@@ -10,6 +10,7 @@ The application should have a minimal data structure in form of the common CRUD-
   - administration of the instrument catalog,
   - administration of client data and
   - administration of the rentals.
+  
 For this we had to use serialization in order to create persistent data and store it in a txt-file. There was no specification or lecture in the teaching material on how the structure of the application should look like, so I had to rely on a example application they did in the schools Bachelor programming class.
 
 ### Realization
